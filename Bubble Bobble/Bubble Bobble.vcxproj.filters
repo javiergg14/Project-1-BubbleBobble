@@ -52,6 +52,9 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Render</Filter>
     </ClCompile>
+    <ClCompile Include="StaticImage.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h">
@@ -88,6 +91,9 @@
       <Filter>Render</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticImage.h">
       <Filter>Render</Filter>
     </ClInclude>
   </ItemGroup>

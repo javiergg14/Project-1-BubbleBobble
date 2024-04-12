@@ -150,6 +150,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
+    <ClCompile Include="StaticImage.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Tilemap.cpp" />
   </ItemGroup>
@@ -157,6 +158,7 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="StaticImage.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Point.h" />
