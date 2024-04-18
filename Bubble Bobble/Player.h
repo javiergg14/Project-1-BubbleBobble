@@ -31,15 +31,15 @@
 #define GRAVITY_FORCE			1
 
 //Logic states
-enum class State { IDLE, WALKING, JUMPING, FALLING, CLIMBING, DEAD };
+enum class State { IDLE, WALKING, JUMPING, FALLING, CLIMBING, DEAD, ATTACKING };
 enum class Look { RIGHT, LEFT };
 
 //Rendering states
 enum class PlayerAnim {
 	IDLE_LEFT, IDLE_RIGHT,
+	ATTACKING_RIGHT,ATTACKING_LEFT,
 	WALKING_LEFT, WALKING_RIGHT,
 	JUMPING_LEFT, JUMPING_RIGHT,
-	LEVITATING_LEFT, LEVITATING_RIGHT,
 	FALLING_LEFT, FALLING_RIGHT,
 	CLIMBING, CLIMBING_PRE_TOP, CLIMBING_TOP,
 	SHOCK_LEFT, SHOCK_RIGHT,
@@ -82,14 +82,12 @@ private:
 	void StartWalkingRight();
 	void StartFalling();
 	void StartJumping();
-	void StartClimbingUp();
-	void StartClimbingDown();
+	void Attack();
 	void ChangeAnimRight();
 	void ChangeAnimLeft();
 
 	//Jump steps
 	bool IsAscending() const;
-	bool IsLevitating() const;
 	bool IsDescending() const;
 
 	//Ladder get in/out steps
