@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="AABB.cpp" />
+    <ClCompile Include="RenderComponent.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="StaticImage.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="MemLeaks.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="TileMap.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="AABB.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="RenderComponent.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="StaticImage.h" />
+  </ItemGroup>
+</Project>
