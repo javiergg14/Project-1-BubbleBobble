@@ -65,10 +65,10 @@ AppStatus Player::Initialise()
 	sprite->SetAnimationDelay((int)PlayerAnim::JUMPING_LEFT, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::JUMPING_LEFT, { 0, 3 * n, n, n });
 	sprite->AddKeyFrame((int)PlayerAnim::JUMPING_LEFT, { n, 3 * n, n, n });
-	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_LEFT, ANIM_DELAY);
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_LEFT, ANIM_DELAY_ATTACK);
 	for (i = 0; i < 4; ++i)
 		sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT, { (float)i * n, 4 * n, n, n });
-	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT, ANIM_DELAY);
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT, ANIM_DELAY_ATTACK);
 	for (i = 0; i < 4; ++i)
 		sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT, { (float)i * n, 4 * n, -n, n });
 
@@ -185,12 +185,13 @@ void Player::ChangeAnimLeft()
 }
 void Player::Attack()
 {
-	if (IsKeyDown(KEY_X))
+	if (IsKeyPressed(KEY_X))
 	{
-		state = State::ATTACKING;
+		state == State::ATTACKING;
 		if (IsLookingRight())	SetAnimation((int)PlayerAnim::ATTACKING_RIGHT);
 		else					SetAnimation((int)PlayerAnim::ATTACKING_LEFT);
 	}
+	
 }
 void Player::Update()
 {
@@ -270,8 +271,7 @@ void Player::MoveY()
 			}
 			else if (IsKeyDown(KEY_DOWN))
 			{
-				//To climb up the ladder, we need to check the control point (x, y)
-				//To climb down the ladder, we need to check pixel below (x, y+1) instead
+				
 				box = GetHitbox();
 				box.pos.y++;
 				
