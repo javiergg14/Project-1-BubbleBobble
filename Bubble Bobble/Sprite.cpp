@@ -67,6 +67,7 @@ void Sprite::Update()
                 current_frame %= animations[current_anim].frames.size();
                 current_delay = animations[current_anim].delay;
             }
+
         }
     }
 }
