@@ -53,11 +53,11 @@ AppStatus Player::Initialise()
 		sprite->AddKeyFrame((int)PlayerAnim::WALKING_LEFT, { (float)i * n, 0, n, n });
 
 	sprite->SetAnimationDelay((int)PlayerAnim::FALLING_RIGHT, ANIM_DELAY);
-	for (i = 0; i < 7; ++i)
-		sprite->AddKeyFrame((int)PlayerAnim::FALLING_RIGHT, { (float)i * n, n, -n, n });
+	for (i = 0; i < 2; ++i)
+		sprite->AddKeyFrame((int)PlayerAnim::FALLING_RIGHT, { (float)i * n, 2 *n, -n, n });
 	sprite->SetAnimationDelay((int)PlayerAnim::FALLING_LEFT, ANIM_DELAY);
-	for (i = 0; i < 7; ++i)
-		sprite->AddKeyFrame((int)PlayerAnim::FALLING_LEFT, { (float)i * n,  n, n, n });
+	for (i = 0; i < 2; ++i)
+		sprite->AddKeyFrame((int)PlayerAnim::FALLING_LEFT, { (float)i * n,  2 * n, n, n });
 
 	sprite->SetAnimationDelay((int)PlayerAnim::JUMPING_RIGHT, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::JUMPING_RIGHT, { 0, 3 * n, -n, n });
