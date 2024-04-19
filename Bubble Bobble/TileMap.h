@@ -14,15 +14,9 @@ enum class Tile {
 	AIR = 0,
 
 	// 0 < id < 50: static tiles
-	BLOCK_SQUARE1_TL = 1, BLOCK_SQUARE1_TR, BLOCK_SQUARE1_BL, BLOCK_SQUARE1_BR,
-	BLOCK_SQUARE2_TL, BLOCK_SQUARE2_TR, BLOCK_SQUARE2_BL, BLOCK_SQUARE2_BR,
-	BLOCK_VERT2_T, BLOCK_VERT2_B, BLOCK_HORIZ2_L, BLOCK_HORIZ2_R, BLOCK_BLUE,
-	BLOCK_HORIZ3_L, BLOCK_HORIZ3_M, BLOCK_HORIZ3_R,
-	BLOCK_BEAM_L, BLOCK_BEAM_R,
+	BLOCK = 1, SHADOW_EDGE, SHADOW, SHADOW_EDGE_VERTICAL,
+	SHADOW_VERTICAL_EDGE_2, VERTICAL_SHADOW, TOTAL_EDGE_SHADOW,
 
-	LADDER_L = 20, LADDER_R, LADDER_TOP_L, LADDER_TOP_R,
-	LOCK_RED = 30, LOCK_YELLOW,
-	LASER_L = 40, LASER_R,
 
 	// 50 <= id < 100: special tiles
 	DOOR = 50,
@@ -33,12 +27,9 @@ enum class Tile {
 	PLAYER = 100,
 
 	//Intervals
-	STATIC_FIRST = BLOCK_SQUARE1_TL,
-	STATIC_LAST = LASER_R,
-	SOLID_FIRST = BLOCK_SQUARE1_TL,
-	SOLID_LAST = BLOCK_BEAM_R,
-	SPECIAL_FIRST = DOOR,
-	SPECIAL_LAST = LASER,
+	STATIC_FIRST = BLOCK,
+	SOLID_FIRST = BLOCK,
+	SOLID_LAST = BLOCK,
 	ENTITY_FIRST = PLAYER,
 	ENTITY_LAST = PLAYER
 };
@@ -68,21 +59,17 @@ public:
 	bool TestFalling(const AABB& box) const;
 
 	//Test if box is on ladder and update 'px' with the x-center position of the ladder
-	bool TestOnLadder(const AABB& box, int* px) const;
+	
 
 	//Test if box is on ladder top and update 'px' with the x-center position of the ladder
-	bool TestOnLadderTop(const AABB& box, int* px) const;
 
 private:
 	void InitTileDictionary();
 
 	Tile GetTileIndex(int x, int y) const;
 	bool IsTileSolid(Tile tile) const;
-	bool IsTileLadderTop(Tile tile) const;
-	bool IsTileLadder(Tile tile) const;
 	bool CollisionX(const Point& p, int distance) const;
 	bool CollisionY(const Point& p, int distance) const;
-	int GetLadderCenterPos(int pixel_x, int pixel_y) const;
 
 	//Tile map
 	Tile* map;

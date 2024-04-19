@@ -187,7 +187,7 @@ void Player::Attack()
 {
 	if (IsKeyPressed(KEY_X))
 	{
-		state == State::ATTACKING;
+		state = State::ATTACKING;
 		if (IsLookingRight())	SetAnimation((int)PlayerAnim::ATTACKING_RIGHT);
 		else					SetAnimation((int)PlayerAnim::ATTACKING_LEFT);
 	}

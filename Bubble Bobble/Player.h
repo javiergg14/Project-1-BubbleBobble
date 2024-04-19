@@ -6,8 +6,8 @@
 #define PLAYER_FRAME_SIZE		32
 
 //Logical model size: 12x28
-#define PLAYER_PHYSICAL_WIDTH	12
-#define PLAYER_PHYSICAL_HEIGHT	28
+#define PLAYER_PHYSICAL_WIDTH	26
+#define PLAYER_PHYSICAL_HEIGHT	30
 
 //Horizontal speed and vertical speed while falling down
 #define PLAYER_SPEED			2
@@ -19,7 +19,7 @@
 #define ANIM_LADDER_DELAY		(2*ANIM_DELAY)
 
 //When jumping, initial jump speed and maximum falling speed
-#define PLAYER_JUMP_FORCE		10
+#define PLAYER_JUMP_FORCE		13
 
 //Frame delay for updating the jump velocity
 #define PLAYER_JUMP_DELAY		2
