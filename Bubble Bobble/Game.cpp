@@ -2,8 +2,6 @@
 #include "Globals.h"
 #include "ResourceManager.h"
 #include <stdio.h>
-#include <raymath.h>
-
 
 Game::Game()
 {
@@ -66,21 +64,7 @@ AppStatus Game::LoadResources()
     {
         return AppStatus::ERROR;
     }
-    int n1 = 512;
-    int n2 = 416;
-    
-    Sprite* render = nullptr;
-    render = new Sprite(data.GetTexture(Resource::IMG_PLAYER));
-    if (render == nullptr)
-    {
-        LOG("Failed to allocate memory for player sprite");
-        return AppStatus::ERROR;
-    }
-    Sprite* sprite = dynamic_cast<Sprite*>(render);
-    sprite->SetNumberAnimations((int)Resource::NUM_ANIMATIONS);
-    sprite->SetAnimationDelay((int)Resource::IMG_PLAYER, ANIM_DELAY);
-    for (int i = 0; i < 6; ++i)
-        sprite->AddKeyFrame((int)Resource::IMG_PLAYER, { (float)i * n1, 0, (float)n1, (float)n2 });
+    img_menu = data.GetTexture(Resource::IMG_MENU);
 
     return AppStatus::OK;
 }
@@ -136,9 +120,6 @@ AppStatus Game::Update()
         break;
     }
     return AppStatus::OK;
-    Sprite* render = nullptr;
-    Sprite* sprite = dynamic_cast<Sprite*>(render);
-    sprite->Update();
 }
 void Game::Render()
 {
