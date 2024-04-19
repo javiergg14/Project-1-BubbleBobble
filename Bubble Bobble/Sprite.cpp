@@ -99,6 +99,10 @@ void Sprite::PrevFrame()
         }
     }
 }
+bool Sprite::Stop_frame()
+{
+    current_frame == animations[current_anim].frames.size() - 1;
+}
 void Sprite::Draw(int x, int y) const
 {
     DrawTint(x, y, WHITE);

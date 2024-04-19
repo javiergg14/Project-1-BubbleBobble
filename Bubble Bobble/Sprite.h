@@ -29,6 +29,7 @@ public:
     void Update();
     void NextFrame();
     void PrevFrame();
+    bool Stop_frame();
 
     void Draw(int x, int y) const override;
     void DrawTint(int x, int y, const Color& col) const override;

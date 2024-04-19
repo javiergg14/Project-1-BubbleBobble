@@ -48,6 +48,11 @@ AppStatus Game::Initialise(float scale)
         LOG("Failed to load resources");
         return AppStatus::ERROR;
     }
+    
+    InitAudioDevice();
+    Sound fxOgg = LoadSound("music/Lvl1.ogg");
+    PlaySound(fxOgg);
+
 
     //Set the target frame rate for the application
     SetTargetFPS(60);

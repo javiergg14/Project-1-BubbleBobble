@@ -71,6 +71,9 @@ AppStatus Player::Initialise()
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT, ANIM_DELAY_ATTACK);
 	for (i = 0; i < 4; ++i)
 		sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT, { (float)i * n, 4 * n, -n, n });
+		
+	
+		
 
 
 	sprite->SetAnimation((int)PlayerAnim::IDLE_RIGHT);
@@ -185,11 +188,21 @@ void Player::ChangeAnimLeft()
 }
 void Player::Attack()
 {
-	if (IsKeyPressed(KEY_X))
+	if ()
 	{
-		state = State::ATTACKING;
-		if (IsLookingRight())	SetAnimation((int)PlayerAnim::ATTACKING_RIGHT);
-		else					SetAnimation((int)PlayerAnim::ATTACKING_LEFT);
+		Stop();
+	}
+	else
+	{
+		if (IsKeyPressed(KEY_X))
+		{
+			if (IsLookingRight()) {
+				SetAnimation((int)PlayerAnim::ATTACKING_RIGHT);
+			}
+			else {
+				SetAnimation((int)PlayerAnim::ATTACKING_LEFT);
+			}
+		}
 	}
 	
 }
