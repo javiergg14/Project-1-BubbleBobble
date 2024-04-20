@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include <stdio.h>
 
+
 Game::Game()
 {
     state = GameState::MAIN_MENU;

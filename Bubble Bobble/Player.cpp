@@ -188,12 +188,8 @@ void Player::ChangeAnimLeft()
 }
 void Player::Attack()
 {
-	if ()
-	{
-		Stop();
-	}
-	else
-	{
+
+
 		if (IsKeyPressed(KEY_X))
 		{
 			if (IsLookingRight()) {
@@ -203,7 +199,7 @@ void Player::Attack()
 				SetAnimation((int)PlayerAnim::ATTACKING_LEFT);
 			}
 		}
-	}
+	
 	
 }
 void Player::Update()
