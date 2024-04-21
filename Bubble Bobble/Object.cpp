@@ -12,7 +12,7 @@ Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, O
 	{
 	case ObjectType::MORADO: rc = { 0, 0, n, n }; break;
 	case ObjectType::ROJO: rc = { 4*n, 0, n, n }; break;
-	case ObjectType::FRUTA: rc = { 4 * n, 0, m, m }; break;
+	case ObjectType::FRUTA: rc = { 32 * n, 0, m, m }; break;
 
 	default: LOG("Internal error: object creation of invalid type");
 	}

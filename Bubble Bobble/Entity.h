@@ -16,6 +16,7 @@ public:
 	void SetPos(const Point& p);
 	void Update();
 	AABB GetHitbox() const;
+	Point GetPos() const;
 
 	//Draw representation model
 	void Draw() const;

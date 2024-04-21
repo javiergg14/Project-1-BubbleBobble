@@ -23,8 +23,9 @@ void Balas::SetTileMap(TileMap* tilemap)
 void Balas::BalasTest()
 {
 	TraceLog(LOG_INFO, "Entra");
-	Draw();
-
+	state = BalaState::LANZAR;
+	SetAnimation((int)BalasAnim::SHOT);
+	GetPos();
 }
 void Balas::DrawDebug(const Color& col) const
 {
@@ -35,8 +36,8 @@ void Balas::DrawDebug(const Color& col) const
 }
 AppStatus Balas::Initialise()
 {
-	const int n = 16;
 
+	float n = 16;
 	ResourceManager& data = ResourceManager::Instance();
 	if (data.LoadTexture(Resource::IMG_BULLET, "images/shoot.png") != AppStatus::OK)
 	{
@@ -49,6 +50,7 @@ AppStatus Balas::Initialise()
 		LOG("Failed to allocate memory for player sprite");
 		return AppStatus::ERROR;
 	}
+
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->SetNumberAnimations((int)BalasAnim::NUM_ANIMATIONS);
 
@@ -67,7 +69,7 @@ void Balas::Update()
 	//Player doesn't use the "Entity::Update() { pos += dir; }" default behaviour.
 	//Instead, uses an independent behaviour for each axis.
 
-	SetAnimation((int)BalasAnim::SHOT);
+	
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->Update();
 }
