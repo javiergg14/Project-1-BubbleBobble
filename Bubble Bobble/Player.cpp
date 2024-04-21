@@ -7,7 +7,7 @@
 #include "Game.h"
 #include <raymath.h>
 
-Player::Player(const Point& p, State s, Look view) :
+Player::Player(const Point& p, State s, Look view, Balas &bala) :
 	Entity(p, PLAYER_PHYSICAL_WIDTH, PLAYER_PHYSICAL_HEIGHT, PLAYER_FRAME_SIZE, PLAYER_FRAME_SIZE)
 {
 	state = s;
@@ -15,6 +15,8 @@ Player::Player(const Point& p, State s, Look view) :
 	jump_delay = PLAYER_JUMP_DELAY;
 	map = nullptr;
 	score = 0;
+	vida = 3;
+	balas = &bala;
 }
 Player::~Player()
 {
@@ -73,12 +75,8 @@ AppStatus Player::Initialise()
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT, ANIM_DELAY_ATTACK);
 	for (i = 0; i < 4; ++i)
 		sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT, { (float)i * n, 4 * n, -n, n });
-		
-	
-		
 
 
-	sprite->SetAnimation((int)PlayerAnim::IDLE_RIGHT);
 
 	return AppStatus::OK;
 }
@@ -210,9 +208,9 @@ void Player::ChangeAnimLeft()
 void Player::Attack()
 {
 
-
 		if (IsKeyPressed(KEY_X))
 		{
+			balas->BalasTest();
 			if (IsLookingRight()) {
 				SetAnimation((int)PlayerAnim::ATTACKING_RIGHT);
 			}
@@ -220,8 +218,6 @@ void Player::Attack()
 				SetAnimation((int)PlayerAnim::ATTACKING_LEFT);
 			}
 		}
-	
-	
 }
 void Player::Update()
 {

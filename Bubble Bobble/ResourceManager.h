@@ -8,6 +8,7 @@
 enum class Resource {
     IMG_MENU,
     IMG_PLAYER,
+    IMG_BULLET,
     IMG_ENEMY,
     IMG_TILES,
     IMG_ENEMIES,

@@ -1,6 +1,7 @@
 #pragma once
 #include <raylib.h>
 #include "Player.h"
+#include "Balas.h"
 #include "TileMap.h"
 #include "Object.h"
 
@@ -29,6 +30,7 @@ private:
     void RenderGUI() const;
 
     Player* player;
+    Balas* bala;
     TileMap* level;
     std::vector<Object*> objects;
 

@@ -21,6 +21,5 @@ public:
 
 private:
 	ObjectType type;
-	int velocity;
 };
 
