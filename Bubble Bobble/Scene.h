@@ -5,6 +5,8 @@
 #include "TileMap.h"
 #include "Object.h"
 
+
+
 enum class DebugMode { OFF, SPRITES_AND_HITBOXES, ONLY_HITBOXES, SIZE };
 
 class Scene
@@ -33,6 +35,7 @@ private:
     Balas* bala;
     TileMap* level;
     std::vector<Object*> objects;
+    std::vector<Object*> enemies;
 
     Camera2D camera;
     DebugMode debug;

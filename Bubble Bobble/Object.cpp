@@ -7,10 +7,12 @@ Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, O
 
 	Rectangle rc;
 	const int n = 32;
+	const int m = 16;
 	switch (type)
 	{
 	case ObjectType::MORADO: rc = { 0, 0, n, n }; break;
 	case ObjectType::ROJO: rc = { 4*n, 0, n, n }; break;
+	case ObjectType::FRUTA: rc = { 4 * n, 0, m, m }; break;
 
 	default: LOG("Internal error: object creation of invalid type");
 	}
@@ -18,16 +20,6 @@ Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, O
 	ResourceManager& data = ResourceManager::Instance();
 	render = new StaticImage(data.GetTexture(Resource::IMG_ENEMIES), rc);
 
-	const int m = 16;
-	switch (type)
-	{
-	case ObjectType::MORADO: rc = { 0, 0, m, m }; break;
-
-	default: LOG("Internal error: object creation of invalid type");
-	}
-
-	ResourceManager& data = ResourceManager::Instance();
-	render = new StaticImage(data.GetTexture(Resource::IMG_ITEMS), rc);
 
 
 

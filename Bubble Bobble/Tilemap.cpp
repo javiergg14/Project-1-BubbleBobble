@@ -56,12 +56,6 @@ AppStatus TileMap::Initialise()
 	}
 	img_enemies = data.GetTexture(Resource::IMG_ENEMIES);
 
-	if (data.LoadTexture(Resource::IMG_ITEMS, "images/zen-chan.png") != AppStatus::OK)
-	{
-		return AppStatus::ERROR;
-	}
-	img_items = data.GetTexture(Resource::IMG_ITEMS);
-
 	laser = new Sprite(img_tiles);
 	if (laser == nullptr)
 	{
