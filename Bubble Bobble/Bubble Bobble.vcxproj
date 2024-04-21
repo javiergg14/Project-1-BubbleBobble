@@ -118,8 +118,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\javig\Desktop\Project-1-BubbleBobble\raylib\raylib\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\javig\Desktop\Project-1-BubbleBobble\raylib\raylib\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\javig\Desktop\Project-1-BubbleBobble\Bubble Bobble\raylib\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\javig\Desktop\Project-1-BubbleBobble\Bubble Bobble\raylib\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -180,7 +180,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)\libraries\raylib\lib </AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;raylib.lib;winmm.lib</AdditionalDependencies>
+      <AdditionalDependencies>raylib.lib;winmm.lib</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
