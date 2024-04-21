@@ -20,7 +20,7 @@ enum class Tile {
 
 	// 50 <= id < 100: special tiles
 	DOOR = 50,
-	KEY_RED = 60, YELLOW_KEY, ITEM_APPLE, ITEM_CHILI,
+	MORADO = 60, ROJO, KEY_RED, YELLOW_KEY,
 	LASER = 70, LASER_FRAME0, LASER_FRAME1, LASER_FRAME2,
 
 	// id >= 100: entities' initial locations
@@ -84,5 +84,6 @@ private:
 
 	//Tile sheet
 	const Texture2D* img_tiles;
+	const Texture2D* img_enemies;
 };
 

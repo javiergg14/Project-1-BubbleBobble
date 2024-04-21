@@ -10,6 +10,7 @@ enum class Resource {
     IMG_PLAYER,
     IMG_ENEMY,
     IMG_TILES,
+    IMG_ENEMIES,
     IMG_ITEMS,
     NUM_ANIMATIONS,
     IMG_SHOOT

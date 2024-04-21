@@ -4,10 +4,9 @@
 #define OBJECT_PHYSICAL_SIZE	14
 #define OBJECT_FRAME_SIZE		16
 
-#define POINTS_APPLE	10
-#define POINTS_CHILI	20
+#define POINTS 10
 
-enum class ObjectType { APPLE, CHILI };
+enum class ObjectType { MORADO, ROJO};
 
 class Object : public Entity
 {
@@ -17,8 +16,10 @@ public:
 
 	void DrawDebug(const Color& col) const;
 	int Points() const;
+	void Update();
 
 private:
 	ObjectType type;
+	int velocity;
 };
 
