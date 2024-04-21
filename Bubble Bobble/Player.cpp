@@ -106,6 +106,13 @@ int Player::GetVida()
 {
 	return vida;
 }
+int Player::CheckVida()
+{
+	if (vida == 0)
+	{
+		return 1;
+	}
+}
 void Player::SetTileMap(TileMap* tilemap)
 {
 	map = tilemap;

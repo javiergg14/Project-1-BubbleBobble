@@ -2,7 +2,7 @@
 #include "Globals.h"
 #include "Scene.h"
 
-enum class GameState { MAIN_MENU, PLAYING, SETTINGS, CREDITS };
+enum class GameState { MAIN_MENU, PLAYING, SETTINGS, CREDITS, LOSE  };
 
 class Game
 {
@@ -22,7 +22,7 @@ private:
     AppStatus LoadResources();
     void UnloadResources();
 
-    GameState state;
+    GameState state1;
     Scene* scene;
     const Texture2D* img_menu;
 

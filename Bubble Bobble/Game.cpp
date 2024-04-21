@@ -7,7 +7,7 @@
 
 Game::Game()
 {
-    state = GameState::MAIN_MENU;
+    state1 = GameState::MAIN_MENU;
     scene = nullptr;
     img_menu = nullptr;
 
@@ -103,14 +103,14 @@ AppStatus Game::Update()
     //Check if user attempts to close the window, either by clicking the close button or by pressing Alt+F4
     if (WindowShouldClose()) return AppStatus::QUIT;
 
-    switch (state)
+    switch (state1)
     {
     case GameState::MAIN_MENU:
         if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
         if (IsKeyPressed(KEY_SPACE))
         {
             if (BeginPlay() != AppStatus::OK) return AppStatus::ERROR;
-            state = GameState::PLAYING;
+            state1 = GameState::PLAYING;
         }
         break;
 
@@ -118,7 +118,7 @@ AppStatus Game::Update()
         if (IsKeyPressed(KEY_ESCAPE))
         {
             FinishPlay();
-            state = GameState::MAIN_MENU;
+            state1 = GameState::MAIN_MENU;
         }
         else
         {
@@ -126,6 +126,11 @@ AppStatus Game::Update()
             scene->Update();
         }
         break;
+    case GameState::LOSE:
+        if (IsKeyPressed(KEY_SPACE))
+        {
+            state1 = GameState::MAIN_MENU;
+        }
     }
     return AppStatus::OK;
 }
@@ -135,7 +140,7 @@ void Game::Render()
     BeginTextureMode(target);
     ClearBackground(BLACK);
 
-    switch (state)
+    switch (state1)
     {
     case GameState::MAIN_MENU:
         DrawTexture(*img_menu, 0, 0, WHITE);

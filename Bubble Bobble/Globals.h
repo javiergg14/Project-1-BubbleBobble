@@ -27,3 +27,4 @@ void log(const char file[], int line, const char* text, ...);
 //Entities animation delay
 #define ANIM_DELAY		8
 #define ANIM_DELAY_ATTACK		3
+

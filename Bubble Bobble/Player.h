@@ -63,12 +63,12 @@ public:
 	void InitVida();
 	void IncrVida(int n);
 	int GetVida();
+	int CheckVida();
 
 	void Update();
 	void DrawDebug(const Color& col) const;
 	void Release();
 
-	int vida;
 
 private:
 	bool IsLookingRight() const;
@@ -105,6 +105,7 @@ private:
 
 	TileMap* map;
 
-	int score;
+	int score, vida;
+
 };
 
