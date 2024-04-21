@@ -26,6 +26,7 @@ void Balas::BalasTest(Point playerPos)
 	state = BalaState::LANZAR;
 	SetAnimation((int)BalasAnim::SHOT);
 	SetPos(playerPos);
+	
 }
 void Balas::DrawDebug(const Color& col) const
 {
@@ -69,7 +70,7 @@ void Balas::Update()
 	//Player doesn't use the "Entity::Update() { pos += dir; }" default behaviour.
 	//Instead, uses an independent behaviour for each axis.
 
-	
+	pos.x += 2;
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->Update();
 }
