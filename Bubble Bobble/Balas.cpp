@@ -20,13 +20,18 @@ void Balas::SetTileMap(TileMap* tilemap)
 {
 	map = tilemap;
 }
-void Balas::BalasTest(Point playerPos)
+void Balas::BalasDerecha(Point playerPos)
 {
-	TraceLog(LOG_INFO, "Entra");
-	state = BalaState::LANZAR;
+	state = BalaState::DERECHA;
 	SetAnimation((int)BalasAnim::SHOT);
 	SetPos(playerPos);
-	
+}
+void Balas::BalasIzquierda(Point playerPos)
+{
+	state = BalaState::IZQUIERDA;
+	SetAnimation((int)BalasAnim::SHOT);
+	SetPos(playerPos);
+
 }
 void Balas::DrawDebug(const Color& col) const
 {
@@ -69,8 +74,14 @@ void Balas::Update()
 {
 	//Player doesn't use the "Entity::Update() { pos += dir; }" default behaviour.
 	//Instead, uses an independent behaviour for each axis.
-
-	pos.x += 2;
+	if (state == BalaState::IZQUIERDA)
+	{
+		pos.x -= 5;
+	}
+	if (state == BalaState::DERECHA)
+	{
+		pos.x += 5;
+	}
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->Update();
 }

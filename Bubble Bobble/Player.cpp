@@ -215,13 +215,15 @@ void Player::Attack()
 			if (v <= 100)
 			{
 				PlaySound(AttackSound);
-				balas[v]->BalasTest(GetPos());
+				
 				v += 1;
 				if (IsLookingRight()) {
 					SetAnimation((int)PlayerAnim::ATTACKING_RIGHT);
+					balas[v]->BalasDerecha(GetPos());
 				}
 				else {
 					SetAnimation((int)PlayerAnim::ATTACKING_LEFT);
+					balas[v]->BalasIzquierda(GetPos());
 				}
 			}
 			

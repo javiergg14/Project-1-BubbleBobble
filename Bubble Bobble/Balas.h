@@ -2,7 +2,7 @@
 #include "Entity.h"
 #include "TileMap.h"
 
-enum class BalaState {INVISIBLE, LANZAR, CONTACT };
+enum class BalaState {INVISIBLE, LANZAR, CONTACT, DERECHA, IZQUIERDA};
 enum class BalaLook { RIGHT, LEFT };
 
 enum class BalasAnim {
@@ -20,9 +20,12 @@ public:
 	void DrawDebug(const Color& col) const;
 	void Release();
 	void SetAnimation(int id);
-	void BalasTest(Point playerPos);
+	void BalasDerecha(Point playerPos);
+	void BalasIzquierda(Point playerPos);
 private:
 	BalaState state;
 	BalaLook look;
 	TileMap* map;
+	int lifeTimer = 10;
+	const int maxLifeTime = 1;
 };
