@@ -20,7 +20,7 @@ public:
 	void DrawDebug(const Color& col) const;
 	void Release();
 	void SetAnimation(int id);
-	void BalasTest();
+	void BalasTest(Point playerPos);
 private:
 	BalaState state;
 	BalaLook look;

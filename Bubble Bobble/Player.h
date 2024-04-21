@@ -51,7 +51,7 @@ enum class PlayerAnim {
 class Player : public Entity
 {
 public:
-	Player(const Point& p, State s, Look view, Balas &balas);
+	Player(const Point& p, State s, Look view, std::vector<Balas*>& bala);
 	~Player();
 
 	AppStatus Initialise();
@@ -108,10 +108,12 @@ private:
 
 	int score, vida;
 
-	Balas *balas;
+	std::vector<Balas*> balas; 
 
 	Sound JumpSound;
 	Sound AttackSound;
+
+	int v = 0;
 
 };
 

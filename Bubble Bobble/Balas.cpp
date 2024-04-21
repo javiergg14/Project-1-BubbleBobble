@@ -20,12 +20,12 @@ void Balas::SetTileMap(TileMap* tilemap)
 {
 	map = tilemap;
 }
-void Balas::BalasTest()
+void Balas::BalasTest(Point playerPos)
 {
 	TraceLog(LOG_INFO, "Entra");
 	state = BalaState::LANZAR;
 	SetAnimation((int)BalasAnim::SHOT);
-	GetPos();
+	SetPos(playerPos);
 }
 void Balas::DrawDebug(const Color& col) const
 {

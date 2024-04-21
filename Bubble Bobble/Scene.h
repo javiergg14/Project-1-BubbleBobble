@@ -32,9 +32,10 @@ private:
     void RenderGUI() const;
 
     Player* player;
-    Balas* bala;
+    
     TileMap* level;
     std::vector<Object*> objects;
+    std::vector<Balas*> balas;
     std::vector<Object*> enemies;
 
     Camera2D camera;

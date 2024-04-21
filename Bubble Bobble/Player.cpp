@@ -7,7 +7,7 @@
 #include "Game.h"
 #include <raymath.h>
 
-Player::Player(const Point& p, State s, Look view, Balas &bala) :
+Player::Player(const Point& p, State s, Look view, std::vector<Balas*>& bala) :
 	Entity(p, PLAYER_PHYSICAL_WIDTH, PLAYER_PHYSICAL_HEIGHT, PLAYER_FRAME_SIZE, PLAYER_FRAME_SIZE)
 {
 	state = s;
@@ -16,7 +16,7 @@ Player::Player(const Point& p, State s, Look view, Balas &bala) :
 	map = nullptr;
 	score = 0;
 	vida = 3;
-	balas = &bala;
+	balas = bala;
 }
 Player::~Player()
 {
@@ -210,17 +210,21 @@ void Player::ChangeAnimLeft()
 }
 void Player::Attack()
 {
-
 		if (IsKeyPressed(KEY_X))
 		{
-			PlaySound(AttackSound);
-			balas->BalasTest();
-			if (IsLookingRight()) {
-				SetAnimation((int)PlayerAnim::ATTACKING_RIGHT);
+			if (v <= 100)
+			{
+				PlaySound(AttackSound);
+				balas[v]->BalasTest(GetPos());
+				v += 1;
+				if (IsLookingRight()) {
+					SetAnimation((int)PlayerAnim::ATTACKING_RIGHT);
+				}
+				else {
+					SetAnimation((int)PlayerAnim::ATTACKING_LEFT);
+				}
 			}
-			else {
-				SetAnimation((int)PlayerAnim::ATTACKING_LEFT);
-			}
+			
 		}
 }
 void Player::Update()
