@@ -76,7 +76,8 @@ AppStatus Player::Initialise()
 	for (i = 0; i < 4; ++i)
 		sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT, { (float)i * n, 4 * n, -n, n });
 
-
+	JumpSound = LoadSound("Music/Salto.wav");
+	AttackSound = LoadSound("Music/Lanzar burbuja.wav");
 
 	return AppStatus::OK;
 }
@@ -177,11 +178,13 @@ void Player::StartFalling()
 }
 void Player::StartJumping()
 {
+	PlaySound(JumpSound);
 	dir.y = -PLAYER_JUMP_FORCE;
 	state = State::JUMPING;
 	if (IsLookingRight())	SetAnimation((int)PlayerAnim::JUMPING_RIGHT);
 	else					SetAnimation((int)PlayerAnim::JUMPING_LEFT);
 	jump_delay = PLAYER_JUMP_DELAY;
+	PlaySound(JumpSound);
 }
 void Player::ChangeAnimRight()
 {
@@ -210,6 +213,7 @@ void Player::Attack()
 
 		if (IsKeyPressed(KEY_X))
 		{
+			PlaySound(AttackSound);
 			balas->BalasTest();
 			if (IsLookingRight()) {
 				SetAnimation((int)PlayerAnim::ATTACKING_RIGHT);

@@ -11,6 +11,7 @@ Balas :: Balas(const Point& p, BalaState s, BalaLook view) :
 {
 	state = s;
 	look = view;
+	map = nullptr;
 }
 Balas::~Balas()
 {
@@ -22,6 +23,8 @@ void Balas::SetTileMap(TileMap* tilemap)
 void Balas::BalasTest()
 {
 	TraceLog(LOG_INFO, "Entra");
+	Draw();
+
 }
 void Balas::DrawDebug(const Color& col) const
 {
@@ -32,8 +35,7 @@ void Balas::DrawDebug(const Color& col) const
 }
 AppStatus Balas::Initialise()
 {
-	int i;
-	const int n = 48;
+	const int n = 16;
 
 	ResourceManager& data = ResourceManager::Instance();
 	if (data.LoadTexture(Resource::IMG_BULLET, "images/shoot.png") != AppStatus::OK)

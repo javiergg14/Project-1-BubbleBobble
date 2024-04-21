@@ -18,6 +18,19 @@ Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, O
 	ResourceManager& data = ResourceManager::Instance();
 	render = new StaticImage(data.GetTexture(Resource::IMG_ENEMIES), rc);
 
+	const int m = 16;
+	switch (type)
+	{
+	case ObjectType::MORADO: rc = { 0, 0, m, m }; break;
+
+	default: LOG("Internal error: object creation of invalid type");
+	}
+
+	ResourceManager& data = ResourceManager::Instance();
+	render = new StaticImage(data.GetTexture(Resource::IMG_ITEMS), rc);
+
+
+
 	
 }
 Object::~Object()
@@ -31,6 +44,7 @@ int Object::Points() const
 {
 	if (type == ObjectType::MORADO)		return POINTS;
 	else if (type == ObjectType::ROJO)	return POINTS;
+	else if (type == ObjectType::FRUTA)	return FRUTAPOINTS;
 	else
 	{
 		LOG("Internal error: object type invalid when giving points");

@@ -110,5 +110,8 @@ private:
 
 	Balas *balas;
 
+	Sound JumpSound;
+	Sound AttackSound;
+
 };
 
