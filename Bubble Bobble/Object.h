@@ -6,8 +6,9 @@
 
 #define VIDA 1
 #define POINTS 10
+#define FRUTAPOINTS 50
 
-enum class ObjectType { MORADO, ROJO};
+enum class ObjectType { MORADO, ROJO, FRUTA};
 
 class Object : public Entity
 {
