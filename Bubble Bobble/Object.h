@@ -4,6 +4,7 @@
 #define OBJECT_PHYSICAL_SIZE	14
 #define OBJECT_FRAME_SIZE		16
 
+#define VIDA 1
 #define POINTS 10
 
 enum class ObjectType { MORADO, ROJO};
@@ -16,7 +17,7 @@ public:
 
 	void DrawDebug(const Color& col) const;
 	int Points() const;
-	void Update();
+	int MenosVidas() const;
 
 private:
 	ObjectType type;

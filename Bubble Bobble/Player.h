@@ -60,9 +60,15 @@ public:
 	void IncrScore(int n);
 	int GetScore();
 
+	void InitVida();
+	void IncrVida(int n);
+	int GetVida();
+
 	void Update();
 	void DrawDebug(const Color& col) const;
 	void Release();
+
+	int vida;
 
 private:
 	bool IsLookingRight() const;

@@ -21,6 +21,7 @@ private:
     AppStatus LoadLevel(int stage);
 
     void CheckCollisions();
+    void CheckCollisionsVida();
     void ClearLevel();
     void RenderObjects() const;
     void RenderObjectsDebug(const Color& col) const;

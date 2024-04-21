@@ -3,6 +3,8 @@
 #include "Sprite.h"
 #include "TileMap.h"
 #include "Globals.h"
+#include "ResourceManager.h"
+#include "Game.h"
 #include <raymath.h>
 
 Player::Player(const Point& p, State s, Look view) :
@@ -91,6 +93,18 @@ void Player::IncrScore(int n)
 int Player::GetScore()
 {
 	return score;
+}
+void Player::InitVida()
+{
+	vida = 3;
+}
+void Player::IncrVida(int n)
+{
+	vida -= n;
+}
+int Player::GetVida()
+{
+	return vida;
 }
 void Player::SetTileMap(TileMap* tilemap)
 {
