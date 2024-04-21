@@ -1,11 +1,13 @@
 #include "Scene.h"
 #include "Game.h"
+#include "Balas.h"
 #include <stdio.h>
 #include "Globals.h"
 
 Scene::Scene()
 {
 	player = nullptr;
+	bala = nullptr;
 	level = nullptr;
 
 	camera.target = { 0, 0 };				//Center of the screen
@@ -23,6 +25,12 @@ Scene::~Scene()
 		delete player;
 		player = nullptr;
 	}
+	if (bala != nullptr)
+	{
+		bala->Release();
+		delete bala;
+		bala = nullptr;
+	}
 	if (level != nullptr)
 	{
 		level->Release();
@@ -37,8 +45,21 @@ Scene::~Scene()
 }
 AppStatus Scene::Init()
 {
+	bala = new Balas({ 64,432 }, BalaState::INVISIBLE, BalaLook::RIGHT);
+	if (bala == nullptr)
+	{
+		LOG("Failed to allocate memory for Bala");
+		return AppStatus::ERROR;
+	}
+	//Initialise player
+	if (bala->Initialise() != AppStatus::OK)
+	{
+		LOG("Failed to initialise Bala");
+		return AppStatus::ERROR;
+	}
+
 	//Create player
-	player = new Player({ 64,432}, State::IDLE, Look::RIGHT);
+	player = new Player({ 64,434}, State::IDLE, Look::RIGHT, *bala);
 	if (player == nullptr)
 	{
 		LOG("Failed to allocate memory for Player");
@@ -72,6 +93,7 @@ AppStatus Scene::Init()
 	}
 	//Assign the tile map reference to the player to check collisions while navigating
 	player->SetTileMap(level);
+	bala->SetTileMap(level);
 
 	return AppStatus::OK;
 }
@@ -115,7 +137,7 @@ AppStatus Scene::LoadLevel(int stage)
 				1, 1, 1, 1, 4, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 0, 0, 1, 1, 1, 1,
 				1, 1, 7, 3, 5, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 0, 0, 2, 3, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+				1, 1, 6, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 				1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -147,6 +169,13 @@ AppStatus Scene::LoadLevel(int stage)
 				pos.x = x * TILE_SIZE;
 				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
 				player->SetPos(pos);
+				map[i] = 0;
+			}
+			else if (tile == Tile::BALAS)
+			{
+				pos.x = x * TILE_SIZE;
+				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+				bala->SetPos(pos);
 				map[i] = 0;
 			}
 			else if (tile == Tile::MORADO)
@@ -187,6 +216,7 @@ void Scene::Update()
 
 	level->Update();
 	player->Update();
+	bala->Update();
 	CheckCollisionsVida();
 	CheckCollisions();
 	
@@ -204,7 +234,6 @@ void Scene::Render()
 	if (debug == DebugMode::SPRITES_AND_HITBOXES || debug == DebugMode::ONLY_HITBOXES)
 	{
 		RenderObjectsDebug(YELLOW);
-		player->DrawDebug(GREEN);
 	}
 
 	EndMode2D();
@@ -215,18 +244,19 @@ void Scene::Release()
 {
 	level->Release();
 	player->Release();
+	bala->Release();
 	ClearLevel();
 }
 void Scene::CheckCollisions()
 {
-	AABB player_box, obj_box;
+	AABB bala_box, obj_box;
 
-	player_box = player->GetHitbox();
+	bala_box = bala->GetHitbox();
 	auto it = objects.begin();
 	while (it != objects.end())
 	{
 		obj_box = (*it)->GetHitbox();
-		if (player_box.TestAABB(obj_box))
+		if (bala_box.TestAABB(obj_box))
 		{
 			player->IncrScore((*it)->Points());
 

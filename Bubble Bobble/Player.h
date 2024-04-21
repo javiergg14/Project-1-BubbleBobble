@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "TileMap.h"
+#include "Balas.h"
 
 //Representation model size: 32x32
 #define PLAYER_FRAME_SIZE		32
@@ -44,13 +45,13 @@ enum class PlayerAnim {
 	CLIMBING, CLIMBING_PRE_TOP, CLIMBING_TOP,
 	SHOCK_LEFT, SHOCK_RIGHT,
 	TELEPORT_LEFT, TELEPORT_RIGHT,
-	NUM_ANIMATIONS, SHOT
+	NUM_ANIMATIONS
 };
 
 class Player : public Entity
 {
 public:
-	Player(const Point& p, State s, Look view);
+	Player(const Point& p, State s, Look view, Balas &balas);
 	~Player();
 
 	AppStatus Initialise();
@@ -106,6 +107,8 @@ private:
 	TileMap* map;
 
 	int score, vida;
+
+	Balas *balas;
 
 };
 

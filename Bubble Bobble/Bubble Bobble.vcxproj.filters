@@ -14,6 +14,7 @@
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StaticImage.cpp" />
+    <ClCompile Include="Balas.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h" />
@@ -30,5 +31,6 @@
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StaticImage.h" />
+    <ClInclude Include="Balas.h" />
   </ItemGroup>
 </Project>
