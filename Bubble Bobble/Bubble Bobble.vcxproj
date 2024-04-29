@@ -19,37 +19,45 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AABB.cpp" />
-    <ClCompile Include="Balas.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Globals.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="RenderComponent.cpp" />
-    <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="StaticImage.cpp" />
-    <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="src\AABB.cpp" />
+    <ClCompile Include="src\Balas.cpp" />
+    <ClCompile Include="src\Enemy.cpp" />
+    <ClCompile Include="src\EnemyManager.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Globals.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Object.cpp" />
+    <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\RenderComponent.cpp" />
+    <ClCompile Include="src\ResourceManager.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\Shot.cpp" />
+    <ClCompile Include="src\ShotManager.cpp" />
+    <ClCompile Include="src\Sprite.cpp" />
+    <ClCompile Include="src\StaticImage.cpp" />
+    <ClCompile Include="src\Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AABB.h" />
-    <ClInclude Include="Balas.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Globals.h" />
-    <ClInclude Include="MemLeaks.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Point.h" />
-    <ClInclude Include="RenderComponent.h" />
-    <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="StaticImage.h" />
-    <ClInclude Include="TileMap.h" />
+    <ClInclude Include="src\AABB.h" />
+    <ClInclude Include="src\Balas.h" />
+    <ClInclude Include="src\Enemy.h" />
+    <ClInclude Include="src\EnemyManager.h" />
+    <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\Globals.h" />
+    <ClInclude Include="src\MemLeaks.h" />
+    <ClInclude Include="src\Object.h" />
+    <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\Point.h" />
+    <ClInclude Include="src\RenderComponent.h" />
+    <ClInclude Include="src\ResourceManager.h" />
+    <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\Shot.h" />
+    <ClInclude Include="src\ShotManager.h" />
+    <ClInclude Include="src\Sprite.h" />
+    <ClInclude Include="src\StaticImage.h" />
+    <ClInclude Include="src\TileMap.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
