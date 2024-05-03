@@ -50,6 +50,8 @@ AppStatus Game::Initialise(float scale)
         LOG("Failed to load resources");
         return AppStatus::ERROR;
     }
+
+    fade_transition.Set(GameState::MAIN_MENU, 60, dst);
     
     InitAudioDevice();
     Sound fxOgg = LoadSound("music/Lvl1.ogg");
@@ -103,35 +105,49 @@ AppStatus Game::Update()
     //Check if user attempts to close the window, either by clicking the close button or by pressing Alt+F4
     if (WindowShouldClose()) return AppStatus::QUIT;
 
-    switch (state1)
+    if (fade_transition.IsActive())
     {
-    case GameState::MAIN_MENU:
-        if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
-        if (IsKeyPressed(KEY_SPACE))
+        GameState prev_frame = state1;
+        state1 = fade_transition.Update();
+
+        //Begin play and finish play are delayed due to the fading transition effect
+        if (prev_frame == GameState::MAIN_MENU && state1 == GameState::PLAYING)
         {
             if (BeginPlay() != AppStatus::OK) return AppStatus::ERROR;
-            state1 = GameState::PLAYING;
         }
-        break;
-
-    case GameState::PLAYING:
-        if (IsKeyPressed(KEY_ESCAPE))
+        else if (prev_frame == GameState::PLAYING && state1 == GameState::MAIN_MENU)
         {
             FinishPlay();
-            state1 = GameState::MAIN_MENU;
-        }
-        else
-        {
-            //Game logic
-            scene->Update();
-        }
-        break;
-    case GameState::LOSE:
-        if (IsKeyPressed(KEY_SPACE))
-        {
-            state1 = GameState::MAIN_MENU;
         }
     }
+    else
+    {
+        switch (state1)
+        {
+        case GameState::MAIN_MENU:
+            if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
+            if (IsKeyPressed(KEY_SPACE))
+            {
+                //"state = GameState::PLAYING;" but not until halfway through the transition
+                fade_transition.Set(GameState::MAIN_MENU, 60, GameState::PLAYING, 60, dst);
+            }
+            break;
+
+        case GameState::PLAYING:
+            if (IsKeyPressed(KEY_ESCAPE))
+            {
+                //"state = GameState::MAIN_MENU;" but not until halfway through the transition
+                fade_transition.Set(GameState::PLAYING, 60, GameState::MAIN_MENU, 60, dst);
+            }
+            else
+            {
+                //Game logic
+                scene->Update();
+            }
+            break;
+        }
+    }
+
     return AppStatus::OK;
 }
 void Game::Render()

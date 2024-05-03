@@ -1,6 +1,7 @@
 #pragma once
 #include "Globals.h"
 #include "Scene.h"
+#include "FadeTransition.h"
 
 enum class GameState { MAIN_MENU, PLAYING, SETTINGS, CREDITS, LOSE  };
 
@@ -29,4 +30,5 @@ private:
     //To work with original game units and then scale the result
     RenderTexture2D target;
     Rectangle src, dst;
+    FadeTransition fade_transition;
 };

@@ -19,9 +19,6 @@
     <ClCompile Include="src\Tilemap.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Enemy.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="src\Entity.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
@@ -43,9 +40,6 @@
     <ClCompile Include="src\AABB.cpp">
       <Filter>Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="src\EnemyManager.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
     <ClCompile Include="src\RenderComponent.cpp">
       <Filter>Render</Filter>
     </ClCompile>
@@ -53,6 +47,18 @@
       <Filter>Render</Filter>
     </ClCompile>
     <ClCompile Include="src\StaticImage.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Enemy.cpp">
+      <Filter>Entities\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyManager.cpp">
+      <Filter>Entities\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FadeTransition.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Text.cpp">
       <Filter>Render</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,9 +80,6 @@
     </ClInclude>
     <ClInclude Include="src\TileMap.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Enemy.h">
-      <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="src\Entity.h">
       <Filter>Entities</Filter>
@@ -102,9 +105,6 @@
     <ClInclude Include="src\Point.h">
       <Filter>Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="src\EnemyManager.h">
-      <Filter>Render</Filter>
-    </ClInclude>
     <ClInclude Include="src\RenderComponent.h">
       <Filter>Render</Filter>
     </ClInclude>
@@ -112,6 +112,18 @@
       <Filter>Render</Filter>
     </ClInclude>
     <ClInclude Include="src\StaticImage.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemy.h">
+      <Filter>Entities\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyManager.h">
+      <Filter>Entities\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FadeTransition.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Text.h">
       <Filter>Render</Filter>
     </ClInclude>
   </ItemGroup>
@@ -130,6 +142,9 @@
     </Filter>
     <Filter Include="Render">
       <UniqueIdentifier>{b4d4fde0-ad93-4159-b001-22a6b9883e7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Enemy">
+      <UniqueIdentifier>{7559ec1c-83a9-4c15-9f6c-80d8ec57b8ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
