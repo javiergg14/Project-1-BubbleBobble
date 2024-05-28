@@ -51,13 +51,11 @@ AppStatus Game::Initialise(float scale)
         return AppStatus::ERROR;
     }
 
-    fade_transition.Set(GameState::MAIN_MENU, 30, dst);
+    fade_transition.Set(GameState::MAIN_MENU, 60, dst);
     
     InitAudioDevice();
     Sound fxOgg = LoadSound("music/Lvl1.ogg");
     PlaySound(fxOgg);
-
- 
 
 
     //Set the target frame rate for the application
@@ -131,7 +129,7 @@ AppStatus Game::Update()
             if (IsKeyPressed(KEY_SPACE))
             {
                 //"state = GameState::PLAYING;" but not until halfway through the transition
-                fade_transition.Set(GameState::MAIN_MENU, 60, GameState::PLAYING, 30, dst);
+                fade_transition.Set(GameState::MAIN_MENU, 60, GameState::PLAYING, 60, dst);
             }
             break;
 
@@ -139,7 +137,7 @@ AppStatus Game::Update()
             if (IsKeyPressed(KEY_ESCAPE))
             {
                 //"state = GameState::MAIN_MENU;" but not until halfway through the transition
-                fade_transition.Set(GameState::PLAYING, 60, GameState::MAIN_MENU, 30, dst);
+                fade_transition.Set(GameState::PLAYING, 60, GameState::MAIN_MENU, 60, dst);
             }
             else
             {
@@ -174,7 +172,6 @@ void Game::Render()
     //Draw render texture to screen, properly scaled
     BeginDrawing();
     DrawTexturePro(target.texture, src, dst, { 0, 0 }, 0.0f, WHITE);
-    if (fade_transition.IsActive()) fade_transition.Render();
     EndDrawing();
 }
 void Game::Cleanup()

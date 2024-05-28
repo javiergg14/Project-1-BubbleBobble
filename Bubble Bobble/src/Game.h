@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "FadeTransition.h"
 
+enum class GameState { MAIN_MENU, PLAYING, SETTINGS, CREDITS, LOSE  };
 
 class Game
 {
