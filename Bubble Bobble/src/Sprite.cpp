@@ -52,10 +52,6 @@ void Sprite::SetAutomaticMode()
 {
     mode = AnimMode::AUTOMATIC;
 }
-bool Sprite::IsAnimationComplete() const
-{
-    return animation_complete;
-}
 void Sprite::Update()
 {
     //Both animation modes (automatic and manual) are carry out with animation delay

@@ -1,6 +1,7 @@
 #pragma once
 #include <raylib.h>
 #include "Player.h"
+#include "Balas.h"
 #include "TileMap.h"
 #include "Object.h"
 
@@ -23,6 +24,7 @@ private:
     AppStatus LoadLevel(int stage);
 
     void CheckCollisions();
+    void CheckCollisionsVida();
     void ClearLevel();
     void RenderObjects() const;
     void RenderObjectsDebug(const Color& col) const;
@@ -33,6 +35,7 @@ private:
     
     TileMap* level;
     std::vector<Object*> objects;
+    std::vector<Balas*> balas;
     std::vector<Object*> enemies;
 
     Camera2D camera;

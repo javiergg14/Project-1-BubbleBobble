@@ -25,7 +25,6 @@ public:
 
     void SetManualMode();
     void SetAutomaticMode();
-    bool IsAnimationComplete() const;
 
     void Update();
     void NextFrame();
@@ -46,7 +45,5 @@ private:
     std::vector<Animation> animations;
 
     AnimMode mode;
-
-    bool animation_complete;
 };
 

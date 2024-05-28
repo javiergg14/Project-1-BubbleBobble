@@ -7,7 +7,7 @@
 #include "Game.h"
 #include <raymath.h>
 
-Player::Player(const Point& p, State s, Look view) :
+Player::Player(const Point& p, State s, Look view, std::vector<Balas*>& bala) :
 	Entity(p, PLAYER_PHYSICAL_WIDTH, PLAYER_PHYSICAL_HEIGHT, PLAYER_FRAME_SIZE, PLAYER_FRAME_SIZE)
 {
 	state = s;
@@ -16,6 +16,7 @@ Player::Player(const Point& p, State s, Look view) :
 	map = nullptr;
 	score = 0;
 	vida = 3;
+	balas = bala;
 }
 Player::~Player()
 {
@@ -103,6 +104,13 @@ void Player::IncrVida(int n)
 int Player::GetVida()
 {
 	return vida;
+}
+int Player::CheckVida()
+{
+	if (vida == 0)
+	{
+		return 1;
+	}
 }
 void Player::SetTileMap(TileMap* tilemap)
 {
@@ -211,9 +219,11 @@ void Player::Attack()
 				v += 1;
 				if (IsLookingRight()) {
 					SetAnimation((int)PlayerAnim::ATTACKING_RIGHT);
+					balas[v]->BalasDerecha(GetPos());
 				}
 				else {
 					SetAnimation((int)PlayerAnim::ATTACKING_LEFT);
+					balas[v]->BalasIzquierda(GetPos());
 				}
 			}
 			

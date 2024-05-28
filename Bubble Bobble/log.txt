@@ -1,7 +1,4 @@
-Project executed on 28-05-2024 at 12:49:00.
+Project executed on 28-05-2024 at 11:46:21.
 main.cpp(13): Application start
-ResourceManager.cpp(20): Failed to load texture 
-Scene.cpp(64): Failed to initialise Level
-Game.cpp(93): Failed to initialise Scene
 main.cpp(34): Application finish
 main.cpp(37): Bye :)
