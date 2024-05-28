@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "TileMap.h"
 #include "Object.h"
+#include "Text.h"
 
 
 
@@ -37,5 +38,7 @@ private:
 
     Camera2D camera;
     DebugMode debug;
+
+    Text* font1;
 };
 

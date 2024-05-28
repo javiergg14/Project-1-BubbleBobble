@@ -8,6 +8,8 @@ Scene::Scene()
 	player = nullptr;
 	level = nullptr;
 
+	font1 = nullptr;
+
 	camera.target = { 0, 0 };				//Center of the screen
 	camera.offset = { 0, MARGIN_GUI_Y };	//Offset from the target (center of the screen)
 	camera.rotation = 0.0f;					//No rotation
@@ -34,6 +36,11 @@ Scene::~Scene()
 		delete obj;
 	}
 	objects.clear();
+	if (font1 != nullptr)
+	{
+		delete font1;
+		font1 = nullptr;
+	}
 }
 AppStatus Scene::Init()
 {
@@ -73,7 +80,17 @@ AppStatus Scene::Init()
 	//Assign the tile map reference to the player to check collisions while navigating
 	player->SetTileMap(level);
 
-
+	font1 = new Text();
+	if (font1 == nullptr)
+	{
+		LOG("Failed to allocate memory for font 1");
+		return AppStatus::ERROR;
+	}
+	if (font1->Initialise(Resource::IMG_FONTS1, "images/eric.png", ' ', 8) != AppStatus::OK)
+	{
+		LOG("Failed to initialise Level");
+		return AppStatus::ERROR;
+	}
 	return AppStatus::OK;
 }
 AppStatus Scene::LoadLevel(int stage)
@@ -267,9 +284,10 @@ void Scene::RenderObjectsDebug(const Color& col) const
 }
 void Scene::RenderGUI() const
 {
-	//Temporal approach
-	DrawText(TextFormat("  1 UP \n\n     %d", player->GetScore()), 60, 5, 20, GREEN);
-	DrawText(TextFormat("Bubble\n\nBobble  "), 220, 5, 20, YELLOW);
-	DrawText(TextFormat("  Vida \n\n     %d", player->GetVida()), 410, 5, 20, GREEN);
+	static int frame;
+	frame++;
+	frame %= 1000;
+	font1->Draw(10, 5, TextFormat("SCORE:%d", player->GetScore()));
+	font1->Draw(10, 20, TextFormat("FRAME:%d", frame), RED);
 
 }

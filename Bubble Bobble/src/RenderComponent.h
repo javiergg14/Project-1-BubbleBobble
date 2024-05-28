@@ -19,4 +19,3 @@ public:
 private:
     void DrawPlus(int x, int y, int radius, const Color& col) const;
 };
-
