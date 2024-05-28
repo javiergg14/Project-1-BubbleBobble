@@ -7,9 +7,10 @@
 
 Game::Game()
 {
-    state1 = GameState::MAIN_MENU;
+    state1 = GameState::MAIN_TITLE;
     scene = nullptr;
     img_menu = nullptr;
+    img_title = nullptr;
 
     target = {};
     src = {};
@@ -51,7 +52,7 @@ AppStatus Game::Initialise(float scale)
         return AppStatus::ERROR;
     }
 
-    fade_transition.Set(GameState::MAIN_MENU, 60, dst);
+    fade_transition.Set(GameState::MAIN_TITLE, 60, dst);
     
     InitAudioDevice();
     Sound fxOgg = LoadSound("music/Lvl1.ogg");
@@ -74,6 +75,11 @@ AppStatus Game::LoadResources()
         return AppStatus::ERROR;
     }
     img_menu = data.GetTexture(Resource::IMG_MENU);
+    if (data.LoadTexture(Resource::IMG_TITLE, "images/Pretitle.png") != AppStatus::OK)
+    {
+        return AppStatus::ERROR;
+    }
+    img_title = data.GetTexture(Resource::IMG_TITLE);
 
     return AppStatus::OK;
 }
@@ -111,7 +117,7 @@ AppStatus Game::Update()
         state1 = fade_transition.Update();
 
         //Begin play and finish play are delayed due to the fading transition effect
-        if (prev_frame == GameState::MAIN_MENU && state1 == GameState::PLAYING)
+        if (prev_frame == GameState::MAIN_TITLE && state1 == GameState::MAIN_MENU)
         {
             if (BeginPlay() != AppStatus::OK) return AppStatus::ERROR;
         }
@@ -124,6 +130,14 @@ AppStatus Game::Update()
     {
         switch (state1)
         {
+        case GameState::MAIN_TITLE:
+            if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
+            if (IsKeyPressed(KEY_SPACE))
+            {
+                //"state = GameState::PLAYING;" but not until halfway through the transition
+                fade_transition.Set(GameState::MAIN_TITLE, 60, GameState::MAIN_MENU, 60, dst);
+            }
+            break;
         case GameState::MAIN_MENU:
             if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
             if (IsKeyPressed(KEY_SPACE))
@@ -158,6 +172,9 @@ void Game::Render()
 
     switch (state1)
     {
+    case GameState::MAIN_TITLE:
+        DrawTexture(*img_title, 0, 0, WHITE);
+        break;
     case GameState::MAIN_MENU:
         DrawTexture(*img_menu, 0, 0, WHITE);
         break;
@@ -183,6 +200,7 @@ void Game::Cleanup()
 void Game::UnloadResources()
 {
     ResourceManager& data = ResourceManager::Instance();
+    data.ReleaseTexture(Resource::IMG_TITLE);
     data.ReleaseTexture(Resource::IMG_MENU);
 
     UnloadRenderTexture(target);
