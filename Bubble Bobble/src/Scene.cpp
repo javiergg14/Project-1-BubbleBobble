@@ -1,13 +1,11 @@
 #include "Scene.h"
 #include "Game.h"
-#include "Balas.h"
 #include <stdio.h>
 #include "Globals.h"
 
 Scene::Scene()
 {
 	player = nullptr;
-	balas.clear();
 	level = nullptr;
 
 	camera.target = { 0, 0 };				//Center of the screen
@@ -25,15 +23,6 @@ Scene::~Scene()
 		delete player;
 		player = nullptr;
 	}
-	if (balas.empty())
-	{
-		for (Balas* bala : balas)
-		{
-			bala->Release();
-			delete bala;
-		}
-		balas.clear();
-	}
 	if (level != nullptr)
 	{
 		level->Release();
@@ -48,27 +37,8 @@ Scene::~Scene()
 }
 AppStatus Scene::Init()
 {
-	for (int i = 0; i < 100; i++)
-	{
-		balas.push_back(new Balas({ 64,432 }, BalaState::INVISIBLE, BalaLook::RIGHT));
-	}
-	if (balas.empty())
-	{
-		LOG("Failed to allocate memory for Bala");
-		return AppStatus::ERROR;
-	}
-	//Initialise player
-	for (Balas* bala : balas)
-	{
-		if (bala->Initialise() != AppStatus::OK)
-		{
-			LOG("Failed to initialise Bala");
-			return AppStatus::ERROR;
-		}
-	}
-
 	//Create player
-	player = new Player({ 64,434}, State::IDLE, Look::RIGHT, balas);
+	player = new Player({ 64,434}, State::IDLE, Look::RIGHT);
 	if (player == nullptr)
 	{
 		LOG("Failed to allocate memory for Player");
@@ -125,28 +95,28 @@ AppStatus Scene::LoadLevel(int stage)
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 				1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-				1, 1, 6, 0, 62, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+				1, 1, 6, 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 0, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-				1, 1, 1, 1, 4, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 0, 0, 1, 1, 1, 1,
-				1, 1, 7, 3, 5, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 0, 0, 2, 3, 1, 1,
-				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 1, 1, 4, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 0, 0, 1, 1, 1, 1,
 				1, 1, 7, 3, 5, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 0, 0, 2, 3, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 1, 1, 4, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 0, 0, 1, 1, 1, 1,
 				1, 1, 7, 3, 5, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 0, 0, 2, 3, 1, 1,
-				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-				1, 1, 6, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+				1, 1, 6, 0, 0, 0, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 1, 1,
+				1, 1, 1, 1, 4, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 0, 0, 1, 1, 1, 1,
+				1, 1, 7, 3, 5, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 0, 0, 2, 3, 1, 1,
+				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+				1, 1, 6, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 				1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -184,7 +154,7 @@ AppStatus Scene::LoadLevel(int stage)
 			{
 				pos.x = x * TILE_SIZE;
 				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::MORADO);
+				obj = new Object(pos, ObjectType::APPLE);
 				objects.push_back(obj);
 				map[i] = 0;
 			}
@@ -192,7 +162,7 @@ AppStatus Scene::LoadLevel(int stage)
 			{
 				pos.x = x * TILE_SIZE;
 				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::ROJO);
+				obj = new Object(pos, ObjectType::CHILI);
 				objects.push_back(obj);
 				map[i] = 0;
 			}
@@ -218,12 +188,7 @@ void Scene::Update()
 
 	level->Update();
 	player->Update();
-	for (Balas* bala : balas)
-	{
-		bala->Update();
-	}
 	
-	CheckCollisionsVida();
 	CheckCollisions();
 	
 }
@@ -236,10 +201,6 @@ void Scene::Render()
 	{
 		RenderObjects();
 		player->Draw();
-		for (Balas* bala : balas)
-		{
-			bala->Draw();
-		}
 		
 	}
 	if (debug == DebugMode::SPRITES_AND_HITBOXES || debug == DebugMode::ONLY_HITBOXES)
@@ -255,53 +216,31 @@ void Scene::Release()
 {
 	level->Release();
 	player->Release();
-	for (Balas* bala : balas)
-	{
-		bala->Release();
-	}
 	ClearLevel();
 }
 void Scene::CheckCollisions()
 {
-	//AABB bala_box, obj_box;
-
-	//bala_box = bala->GetHitbox();
-	//auto it = objects.begin();
-	//while (it != objects.end())
-	//{
-	//	obj_box = (*it)->GetHitbox();
-	//	if (bala_box.TestAABB(obj_box))
-	//	{
-	//		player->IncrScore((*it)->Points());
-
-	//		//Delete the object
-	//		delete* it;
-	//		//Erase the object from the vector and get the iterator to the next valid element
-	//		it = objects.erase(it);
-	//	}
-	//	else
-	//	{
-	//		//Move to the next object
-	//		++it;
-	//	}
-	//}
-}
-void Scene::CheckCollisionsVida()
-{
 	AABB player_box, obj_box;
 
 	player_box = player->GetHitbox();
-	for (auto it = objects.begin(); it != objects.end(); ++it)
+	auto it = objects.begin();
+	while (it != objects.end())
 	{
 		obj_box = (*it)->GetHitbox();
 		if (player_box.TestAABB(obj_box))
 		{
-			player->IncrVida((*it)->MenosVidas());
+			player->IncrScore((*it)->Points());
+
+			//Delete the object
+			delete* it;
+			//Erase the object from the vector and get the iterator to the next valid element
+			it = objects.erase(it);
 		}
-	}
-	if (player->CheckVida() == 1)
-	{
-		
+		else
+		{
+			//Move to the next object
+			++it;
+		}
 	}
 }
 void Scene::ClearLevel()

@@ -172,6 +172,7 @@ void Game::Render()
     //Draw render texture to screen, properly scaled
     BeginDrawing();
     DrawTexturePro(target.texture, src, dst, { 0, 0 }, 0.0f, WHITE);
+    if (fade_transition.IsActive()) fade_transition.Render();
     EndDrawing();
 }
 void Game::Cleanup()

@@ -1,7 +1,6 @@
 #pragma once
 #include "Entity.h"
 #include "TileMap.h"
-#include "Balas.h"
 
 //Representation model size: 32x32
 #define PLAYER_FRAME_SIZE		32
@@ -51,7 +50,7 @@ enum class PlayerAnim {
 class Player : public Entity
 {
 public:
-	Player(const Point& p, State s, Look view, std::vector<Balas*>& bala);
+	Player(const Point& p, State s, Look view);
 	~Player();
 
 	AppStatus Initialise();
@@ -88,7 +87,6 @@ private:
 	void StartWalkingRight();
 	void StartFalling();
 	void StartJumping();
-	void Attack();
 	void ChangeAnimRight();
 	void ChangeAnimLeft();
 
@@ -108,7 +106,6 @@ private:
 
 	int score, vida;
 
-	std::vector<Balas*> balas; 
 
 	Sound JumpSound;
 	Sound AttackSound;

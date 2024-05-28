@@ -7,7 +7,7 @@
 #include "Game.h"
 #include <raymath.h>
 
-Player::Player(const Point& p, State s, Look view, std::vector<Balas*>& bala) :
+Player::Player(const Point& p, State s, Look view) :
 	Entity(p, PLAYER_PHYSICAL_WIDTH, PLAYER_PHYSICAL_HEIGHT, PLAYER_FRAME_SIZE, PLAYER_FRAME_SIZE)
 {
 	state = s;
@@ -16,7 +16,6 @@ Player::Player(const Point& p, State s, Look view, std::vector<Balas*>& bala) :
 	map = nullptr;
 	score = 0;
 	vida = 3;
-	balas = bala;
 }
 Player::~Player()
 {
@@ -178,13 +177,12 @@ void Player::StartFalling()
 }
 void Player::StartJumping()
 {
-	PlaySound(JumpSound);
+	
 	dir.y = -PLAYER_JUMP_FORCE;
 	state = State::JUMPING;
 	if (IsLookingRight())	SetAnimation((int)PlayerAnim::JUMPING_RIGHT);
 	else					SetAnimation((int)PlayerAnim::JUMPING_LEFT);
 	jump_delay = PLAYER_JUMP_DELAY;
-	PlaySound(JumpSound);
 }
 void Player::ChangeAnimRight()
 {
@@ -208,34 +206,12 @@ void Player::ChangeAnimLeft()
 	case State::FALLING: SetAnimation((int)PlayerAnim::FALLING_LEFT); break;
 	}
 }
-void Player::Attack()
-{
-		if (IsKeyPressed(KEY_X))
-		{
-			if (v <= 100)
-			{
-				PlaySound(AttackSound);
-				
-				v += 1;
-				if (IsLookingRight()) {
-					SetAnimation((int)PlayerAnim::ATTACKING_RIGHT);
-					balas[v]->BalasDerecha(GetPos());
-				}
-				else {
-					SetAnimation((int)PlayerAnim::ATTACKING_LEFT);
-					balas[v]->BalasIzquierda(GetPos());
-				}
-			}
-			
-		}
-}
 void Player::Update()
 {
 	//Player doesn't use the "Entity::Update() { pos += dir; }" default behaviour.
 	//Instead, uses an independent behaviour for each axis.
 	MoveX();
 	MoveY();
-	Attack();
 
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->Update();
@@ -315,6 +291,7 @@ void Player::MoveY()
 			}
 			else if (IsKeyPressed(KEY_Z))
 			{
+				PlaySound(JumpSound);
 				StartJumping();
 			}
 		}

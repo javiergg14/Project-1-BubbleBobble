@@ -25,9 +25,6 @@
     <ClCompile Include="src\Object.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="src\Balas.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="src\Player.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
@@ -73,9 +70,6 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="src\Object.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Balas.h">
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="src\Player.h">

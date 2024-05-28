@@ -24,14 +24,14 @@ enum class Tile {
 	LASER = 70, LASER_FRAME0, LASER_FRAME1, LASER_FRAME2,
 
 	// id >= 100: entities' initial locations
-	PLAYER = 100, BALAS = 101,
+	PLAYER = 100,
 
 	//Intervals
 	STATIC_FIRST = BLOCK,
 	SOLID_FIRST = BLOCK,
 	SOLID_LAST = BLOCK,
 	ENTITY_FIRST = PLAYER,
-	ENTITY_LAST = BALAS
+	ENTITY_LAST = PLAYER,
 };
 
 class TileMap

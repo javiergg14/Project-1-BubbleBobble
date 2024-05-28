@@ -50,7 +50,7 @@ AppStatus TileMap::Initialise()
 	}
 	img_tiles = data.GetTexture(Resource::IMG_TILES);
 
-	if (data.LoadTexture(Resource::IMG_ENEMIES, "images/zen-chan.png") != AppStatus::OK)
+	if (data.LoadTexture(Resource::IMG_ENEMIES, "images/tileset.png") != AppStatus::OK)
 	{
 		return AppStatus::ERROR;
 	}

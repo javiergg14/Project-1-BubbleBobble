@@ -6,23 +6,17 @@ Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, O
 	type = t;
 
 	Rectangle rc;
-	const int n = 32;
-	const int m = 16;
+	const int n = 16;
 	switch (type)
 	{
-	case ObjectType::MORADO: rc = { 0, 0, n, n }; break;
-	case ObjectType::ROJO: rc = { 4*n, 0, n, n }; break;
-	case ObjectType::FRUTA: rc = { 32 * n, 0, m, m }; break;
+	case ObjectType::APPLE: rc = { 4*n, 3*n, n, n }; break;
+	case ObjectType::CHILI: rc = { 5*n, 3*n, n, n }; break;
 
 	default: LOG("Internal error: object creation of invalid type");
 	}
 
 	ResourceManager& data = ResourceManager::Instance();
 	render = new StaticImage(data.GetTexture(Resource::IMG_ENEMIES), rc);
-
-
-
-
 	
 }
 Object::~Object()
@@ -34,19 +28,8 @@ void Object::DrawDebug(const Color& col) const
 }
 int Object::Points() const
 {
-	if (type == ObjectType::MORADO)		return POINTS;
-	else if (type == ObjectType::ROJO)	return POINTS;
-	else if (type == ObjectType::FRUTA)	return FRUTAPOINTS;
-	else
-	{
-		LOG("Internal error: object type invalid when giving points");
-		return 0;
-	}
-}
-int Object::MenosVidas() const
-{
-	if (type == ObjectType::MORADO)		return VIDA;
-	else if (type == ObjectType::ROJO)	return VIDA;
+	if (type == ObjectType::APPLE)		return POINTS_APPLE;
+	else if (type == ObjectType::CHILI)	return POINTS_CHILI;
 	else
 	{
 		LOG("Internal error: object type invalid when giving points");

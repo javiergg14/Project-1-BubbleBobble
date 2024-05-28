@@ -20,9 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AABB.cpp" />
-    <ClCompile Include="src\Balas.cpp" />
-    <ClCompile Include="src\Enemy.cpp" />
-    <ClCompile Include="src\EnemyManager.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\FadeTransition.cpp" />
     <ClCompile Include="src\Game.cpp" />
@@ -40,9 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AABB.h" />
-    <ClInclude Include="src\Balas.h" />
-    <ClInclude Include="src\Enemy.h" />
-    <ClInclude Include="src\EnemyManager.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\FadeTransition.h" />
     <ClInclude Include="src\Game.h" />
@@ -121,8 +115,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\javiergg16\Desktop\Project-1-BubbleBobble\Bubble Bobble\raylib\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\javiergg16\Desktop\Project-1-BubbleBobble\Bubble Bobble\raylib\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Proyectos\Project-1-BubbleBobble\Bubble Bobble\raylib\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Proyectos\Project-1-BubbleBobble\Bubble Bobble\raylib\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
