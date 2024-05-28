@@ -25,9 +25,6 @@
     <ClCompile Include="src\Object.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="src\Balas.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="src\Player.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
@@ -48,6 +45,18 @@
     </ClCompile>
     <ClCompile Include="src\Text.cpp">
       <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shot.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShotManager.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Particle.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticleManager.cpp">
+      <Filter>Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,9 +84,6 @@
     <ClInclude Include="src\Object.h">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="src\Balas.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
     <ClInclude Include="src\Player.h">
       <Filter>Entities</Filter>
     </ClInclude>
@@ -101,6 +107,18 @@
     </ClInclude>
     <ClInclude Include="src\Text.h">
       <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shot.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShotManager.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Particle.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleManager.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,11 +3,20 @@
 #include <cmath>
 #include "Globals.h"
 
-Entity::Entity(const Point& p, int w, int h) : pos(p), dir({ 0,0 }), width(w), height(h), frame_width(w), frame_height(h), render(nullptr)
+Entity::Entity() :
+	pos({ 0,0 }), dir({ 0,0 }), width(0), height(0), frame_width(0), frame_height(0), render(nullptr)
 {
+	alive = false;
 }
-Entity::Entity(const Point& p, int w, int h, int frame_w, int frame_h) : pos(p), dir({ 0,0 }), width(w), height(h), frame_width(frame_w), frame_height(frame_h), render(nullptr)
+Entity::Entity(const Point& p, int w, int h) :
+	pos(p), dir({ 0,0 }), width(w), height(h), frame_width(w), frame_height(h), render(nullptr)
 {
+	alive = true;
+}
+Entity::Entity(const Point& p, int w, int h, int frame_w, int frame_h) :
+	pos(p), dir({ 0,0 }), width(w), height(h), frame_width(frame_w), frame_height(frame_h), render(nullptr)
+{
+	alive = true;
 }
 Entity::~Entity()
 {
@@ -25,6 +34,16 @@ Point Entity::GetPos() const
 {
 	return pos;
 }
+void Entity::Set(const Point& p, const Point& d, int w, int h, int framew, int frameh)
+{
+	pos = p;
+	dir = d;
+	width = w;
+	height = h;
+	frame_width = framew;
+	frame_height = frameh;
+	alive = true;
+}
 void Entity::Update()
 {
 	pos += dir;
@@ -34,6 +53,14 @@ AABB Entity::GetHitbox() const
 	Point p(pos.x, pos.y - (height - 1));
 	AABB hitbox(p, width, height);
 	return hitbox;
+}
+void Entity::SetAlive(bool b)
+{
+	alive = b;
+}
+bool Entity::IsAlive() const
+{
+	return alive;
 }
 Point Entity::GetRenderingPosition() const
 {
