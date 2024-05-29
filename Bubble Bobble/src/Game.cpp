@@ -154,14 +154,14 @@ AppStatus Game::Update()
             break;
 
         case GameState::PLAYING:
-            if (IsKeyPressed(KEY_ESCAPE))
+            if (scene->Score() == 5)
+            {
+                fade_transition.Set(GameState::PLAYING, 60, GameState::WINNING, 60, dst);
+            }
+            else if (IsKeyPressed(KEY_ESCAPE))
             {
                 //"state = GameState::MAIN_MENU;" but not until halfway through the transition
                 fade_transition.Set(GameState::PLAYING, 60, GameState::MAIN_MENU, 60, dst);
-            }
-            else if (scene->Score())
-            {
-                fade_transition.Set(GameState::PLAYING, 60, GameState::WINNING, 60, dst);
             }
             else
             {

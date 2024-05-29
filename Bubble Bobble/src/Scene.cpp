@@ -235,12 +235,9 @@ void Scene::Release()
 	player->Release();
 	ClearLevel();
 }
-bool Scene::Score()
+int Scene::Score()
 {
-	if (player->GetScore() == 100)
-	{
-		return true;
-	}
+		return player->GetScore();
 }
 void Scene::CheckCollisions()
 {
