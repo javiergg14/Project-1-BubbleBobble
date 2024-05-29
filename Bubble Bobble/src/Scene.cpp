@@ -287,6 +287,5 @@ void Scene::RenderGUI() const
 	static int frame;
 	frame++;
 	frame %= 1000;
-	font1->Draw(10, 5, TextFormat("SCORE:%d", player->GetScore()));
-	font1->Draw(10, 20, TextFormat("FRAME:%d", frame), RED);
+	font1->Draw(20, 10, TextFormat("SCORE:%d", player->GetScore()), RED);
 }
