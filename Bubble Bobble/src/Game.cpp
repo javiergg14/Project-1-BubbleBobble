@@ -3,6 +3,7 @@
 #include "PLayer.h"
 #include "ResourceManager.h"
 #include <stdio.h>
+#include "Scene.h"
 
 
 Game::Game()
@@ -80,6 +81,11 @@ AppStatus Game::LoadResources()
         return AppStatus::ERROR;
     }
     img_title = data.GetTexture(Resource::IMG_TITLE);
+    if (data.LoadTexture(Resource::IMG_WIN, "images/Win.png") != AppStatus::OK)
+    {
+        return AppStatus::ERROR;
+    }
+    img_win = data.GetTexture(Resource::IMG_WIN);
 
     return AppStatus::OK;
 }
@@ -153,10 +159,22 @@ AppStatus Game::Update()
                 //"state = GameState::MAIN_MENU;" but not until halfway through the transition
                 fade_transition.Set(GameState::PLAYING, 60, GameState::MAIN_MENU, 60, dst);
             }
+            else if (scene->Score())
+            {
+                fade_transition.Set(GameState::PLAYING, 60, GameState::WINNING, 60, dst);
+            }
             else
             {
                 //Game logic
                 scene->Update();
+            }
+            break;
+        case GameState::WINNING:
+            if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
+            if (IsKeyPressed(KEY_SPACE))
+            {
+                //"state = GameState::MAIN_MENU;" but not until halfway through the transition
+                fade_transition.Set(GameState::WINNING, 60, GameState::MAIN_MENU, 60, dst);
             }
             break;
         }
@@ -174,6 +192,9 @@ void Game::Render()
     {
     case GameState::MAIN_TITLE:
         DrawTexture(*img_title, 0, 0, WHITE);
+        break;
+    case GameState::WINNING:
+        DrawTexture(*img_win, 0, 0, WHITE);
         break;
     case GameState::MAIN_MENU:
         DrawTexture(*img_menu, 0, 0, WHITE);
@@ -202,6 +223,7 @@ void Game::UnloadResources()
     ResourceManager& data = ResourceManager::Instance();
     data.ReleaseTexture(Resource::IMG_TITLE);
     data.ReleaseTexture(Resource::IMG_MENU);
+    data.ReleaseTexture(Resource::IMG_WIN);
 
     UnloadRenderTexture(target);
 }

@@ -19,6 +19,7 @@ public:
     void Update();
     void Render();
     void Release();
+    bool Score();
 
 private:
     AppStatus LoadLevel(int stage);
