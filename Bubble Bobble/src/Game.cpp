@@ -123,7 +123,7 @@ AppStatus Game::Update()
         state1 = fade_transition.Update();
 
         //Begin play and finish play are delayed due to the fading transition effect
-        if (prev_frame == GameState::MAIN_TITLE && state1 == GameState::MAIN_MENU)
+        if (prev_frame == GameState::MAIN_MENU && state1 == GameState::PLAYING)
         {
             if (BeginPlay() != AppStatus::OK) return AppStatus::ERROR;
         }
@@ -154,11 +154,7 @@ AppStatus Game::Update()
             break;
 
         case GameState::PLAYING:
-            if (scene->Score() == 5)
-            {
-                fade_transition.Set(GameState::PLAYING, 60, GameState::WINNING, 60, dst);
-            }
-            else if (IsKeyPressed(KEY_ESCAPE))
+            if (IsKeyPressed(KEY_ESCAPE))
             {
                 //"state = GameState::MAIN_MENU;" but not until halfway through the transition
                 fade_transition.Set(GameState::PLAYING, 60, GameState::MAIN_MENU, 60, dst);
