@@ -291,8 +291,8 @@ void Player::MoveY()
 			}
 			else if (IsKeyPressed(KEY_Z))
 			{
-				PlaySound(JumpSound);
-				StartJumping();
+				PlaySound(JumpSound);	
+				StartJumping();	
 			}
 		}
 		else

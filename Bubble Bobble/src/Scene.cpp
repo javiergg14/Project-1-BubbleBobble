@@ -235,6 +235,13 @@ void Scene::Release()
 	player->Release();
 	ClearLevel();
 }
+bool Scene::Score()
+{
+	if (player->GetScore() == 50)
+	{
+		return 1;
+	}
+}
 void Scene::CheckCollisions()
 {
 	AABB player_box, obj_box;
