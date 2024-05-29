@@ -86,7 +86,7 @@ AppStatus Scene::Init()
 		LOG("Failed to allocate memory for font 1");
 		return AppStatus::ERROR;
 	}
-	if (font1->Initialise(Resource::IMG_FONTS1, "images/eric.png", ' ', 8) != AppStatus::OK)
+	if (font1->Initialise(Resource::IMG_FONTS1, "images/Text.png", ' ', 16) != AppStatus::OK)
 	{
 		LOG("Failed to initialise Level");
 		return AppStatus::ERROR;
@@ -288,6 +288,5 @@ void Scene::RenderGUI() const
 	frame++;
 	frame %= 1000;
 	font1->Draw(10, 5, TextFormat("SCORE:%d", player->GetScore()));
-	font1->Draw(10, 20, TextFormat("FRAME:%d", frame), RED);
 
 }
