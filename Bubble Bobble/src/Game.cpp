@@ -13,6 +13,7 @@ Game::Game()
     img_menu = nullptr;
     img_title = nullptr;
 
+
     target = {};
     src = {};
     dst = {};
@@ -123,11 +124,11 @@ AppStatus Game::Update()
         state1 = fade_transition.Update();
 
         //Begin play and finish play are delayed due to the fading transition effect
-        if (prev_frame == GameState::MAIN_MENU && state1 == GameState::PLAYING)
+        if (prev_frame == GameState::MAIN_MENU && state1 == GameState::PLAYING1)
         {
             if (BeginPlay() != AppStatus::OK) return AppStatus::ERROR;
         }
-        else if (prev_frame == GameState::PLAYING && state1 == GameState::MAIN_MENU)
+        else if (prev_frame == GameState::PLAYING1 && state1 == GameState::MAIN_MENU)
         {
             FinishPlay();
         }
@@ -149,15 +150,15 @@ AppStatus Game::Update()
             if (IsKeyPressed(KEY_SPACE))
             {
                 //"state = GameState::PLAYING;" but not until halfway through the transition
-                fade_transition.Set(GameState::MAIN_MENU, 60, GameState::PLAYING, 60, dst);
+                fade_transition.Set(GameState::MAIN_MENU, 60, GameState::PLAYING1, 60, dst);
             }
             break;
 
-        case GameState::PLAYING:
+        case GameState::PLAYING1:
             if (IsKeyPressed(KEY_ESCAPE))
             {
                 //"state = GameState::MAIN_MENU;" but not until halfway through the transition
-                fade_transition.Set(GameState::PLAYING, 60, GameState::MAIN_MENU, 60, dst);
+                fade_transition.Set(GameState::PLAYING1, 60, GameState::MAIN_MENU, 60, dst);
             }
             else
             {
@@ -196,7 +197,7 @@ void Game::Render()
         DrawTexture(*img_menu, 0, 0, WHITE);
         break;
 
-    case GameState::PLAYING:
+    case GameState::PLAYING1:
         scene->Render();
         break;
     }
