@@ -9,14 +9,14 @@ Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, O
 	const int n = 16;
 	switch (type)
 	{
-	case ObjectType::APPLE: rc = { 4*n, 3*n, n, n }; break;
-	case ObjectType::CHILI: rc = { 5*n, 3*n, n, n }; break;
+	case ObjectType::EGG: rc = { n, 0, n, n }; break;
+	case ObjectType::CARROT: rc = { 0, 0, n, n }; break;
 
 	default: LOG("Internal error: object creation of invalid type");
 	}
 
 	ResourceManager& data = ResourceManager::Instance();
-	render = new StaticImage(data.GetTexture(Resource::IMG_ENEMIES), rc);
+	render = new StaticImage(data.GetTexture(Resource::IMG_FRUITS), rc);
 	
 }
 Object::~Object()
@@ -28,8 +28,8 @@ void Object::DrawDebug(const Color& col) const
 }
 int Object::Points() const
 {
-	if (type == ObjectType::APPLE)		return POINTS_APPLE;
-	else if (type == ObjectType::CHILI)	return POINTS_CHILI;
+	if (type == ObjectType::EGG)		return POINTS_EGG;
+	else if (type == ObjectType::CARROT)	return POINTS_CARROT;
 	else
 	{
 		LOG("Internal error: object type invalid when giving points");

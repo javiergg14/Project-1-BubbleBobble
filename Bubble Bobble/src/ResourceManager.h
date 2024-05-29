@@ -13,7 +13,7 @@ enum class Resource {
     IMG_BULLET,
     IMG_ENEMY,
     IMG_TILES,
-    IMG_ENEMIES,
+    IMG_FRUITS,
     IMG_ITEMS,
     IMG_FONTS1,
 };

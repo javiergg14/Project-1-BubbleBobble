@@ -20,7 +20,7 @@ enum class Tile {
 
 	// 50 <= id < 100: special tiles
 	DOOR = 50,
-	MORADO = 60, ROJO, FRUTA, YELLOW_KEY, KEY_RED,
+	EGG = 60, CARROT,
 	LASER = 70, LASER_FRAME0, LASER_FRAME1, LASER_FRAME2,
 
 	// id >= 100: entities' initial locations

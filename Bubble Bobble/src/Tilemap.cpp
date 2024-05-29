@@ -50,11 +50,11 @@ AppStatus TileMap::Initialise()
 	}
 	img_tiles = data.GetTexture(Resource::IMG_TILES);
 
-	if (data.LoadTexture(Resource::IMG_ENEMIES, "images/tileset.png") != AppStatus::OK)
+	if (data.LoadTexture(Resource::IMG_FRUITS, "images/Fruits.png") != AppStatus::OK)
 	{
 		return AppStatus::ERROR;
 	}
-	img_enemies = data.GetTexture(Resource::IMG_ENEMIES);
+	img_enemies = data.GetTexture(Resource::IMG_FRUITS);
 
 	laser = new Sprite(img_tiles);
 	if (laser == nullptr)

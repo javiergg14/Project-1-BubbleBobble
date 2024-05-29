@@ -5,10 +5,10 @@
 #define OBJECT_FRAME_SIZE		16
 
 #define VIDA 1
-#define POINTS_APPLE	10
-#define POINTS_CHILI	20
+#define POINTS_EGG	100
+#define POINTS_CARROT	50
 
-enum class ObjectType { APPLE, CHILI};
+enum class ObjectType { EGG, CARROT};
 
 class Object : public Entity
 {
