@@ -26,10 +26,14 @@ enum class Tile {
 	// id >= 100: entities' initial locations
 	PLAYER = 100,
 
+	SLIME = 200,
+
 	//Intervals
 	STATIC_FIRST = BLOCK,
 	SOLID_FIRST = BLOCK,
 	SOLID_LAST = BLOCK,
+	OBJECT_FIRST = EGG,
+	OBJECT_LAST = CARROT,
 	ENTITY_FIRST = PLAYER,
 	ENTITY_LAST = PLAYER,
 };
@@ -46,6 +50,9 @@ public:
 	void Render();
 	void Release();
 
+	bool IsTileObject(Tile tile) const;
+	bool IsTileEntity(Tile tile) const;
+
 	//Test for collisions with walls
 	bool TestCollisionWallLeft(const AABB& box) const;
 	bool TestCollisionWallRight(const AABB& box) const;
@@ -57,6 +64,8 @@ public:
 
 	//Test if there is a ground tile one pixel below the given box
 	bool TestFalling(const AABB& box) const;
+
+	AABB GetSweptAreaX(const AABB& hitboxbox) const;
 
 	//Test if box is on ladder and update 'px' with the x-center position of the ladder
 	

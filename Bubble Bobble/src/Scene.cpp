@@ -7,6 +7,9 @@ Scene::Scene()
 {
 	player = nullptr;
 	level = nullptr;
+	enemies = nullptr;
+	shots = nullptr;
+	particles = nullptr;
 
 	font1 = nullptr;
 
@@ -101,6 +104,7 @@ AppStatus Scene::LoadLevel(int stage)
 	Point pos;
 	int* map = nullptr;
 	Object* obj;
+	AABB hitbox, area;
 
 	ClearLevel();
 
@@ -134,7 +138,7 @@ AppStatus Scene::LoadLevel(int stage)
 				1, 1, 7, 3, 5, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 0, 0, 2, 3, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 6, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-				1, 1, 6, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+				1, 1, 6, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 				1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -151,37 +155,42 @@ AppStatus Scene::LoadLevel(int stage)
 
 	//Entities and objects
 	i = 0;
+	i = 0;
 	for (y = 0; y < LEVEL_HEIGHT; ++y)
 	{
 		for (x = 0; x < LEVEL_WIDTH; ++x)
 		{
 			tile = (Tile)map[i];
-			if (tile == Tile::EMPTY)
-			{
-				map[i] = 0;
-			}
-			else if (tile == Tile::PLAYER)
+			if (level->IsTileEntity(tile) || level->IsTileObject(tile))
 			{
 				pos.x = x * TILE_SIZE;
 				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				player->SetPos(pos);
-				map[i] = 0;
-			}
-			else if (tile == Tile::EGG)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::EGG);
-				objects.push_back(obj);
-				map[i] = 0;
-			}
-			else if (tile == Tile::CARROT)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::CARROT);
-				objects.push_back(obj);
-				map[i] = 0;
+
+				if (tile == Tile::PLAYER)
+				{
+					player->SetPos(pos);
+				}
+				else if (tile == Tile::EGG)
+				{
+					obj = new Object(pos, ObjectType::EGG);
+					objects.push_back(obj);
+				}
+				else if (tile == Tile::CARROT)
+				{
+					obj = new Object(pos, ObjectType::CARROT);
+					objects.push_back(obj);
+				}
+				else if (tile == Tile::SLIME)
+				{
+					pos.x += (SLIME_FRAME_SIZE - SLIME_PHYSICAL_WIDTH) / 2;
+					hitbox = enemies->GetEnemyHitBox(pos, EnemyType::SLIME);
+					area = level->GetSweptAreaX(hitbox);
+					enemies->Add(pos, EnemyType::SLIME, area);
+				}
+				else
+				{
+					LOG("Internal error loading scene: invalid entity or object tile id")
+				}
 			}
 			++i;
 		}
@@ -195,6 +204,7 @@ void Scene::Update()
 {
 	Point p1, p2;
 	AABB box;
+	AABB hitbox;
 
 	//Switch between the different debug modes: off, on (sprites & hitboxes), on (hitboxes) 
 	if (IsKeyPressed(KEY_F1))
@@ -207,6 +217,11 @@ void Scene::Update()
 	player->Update();
 	
 	CheckCollisions();
+
+	hitbox = player->GetHitbox();
+	enemies->Update(hitbox);
+	shots->Update(hitbox);
+	particles->Update();
 	
 }
 void Scene::Render()
@@ -218,11 +233,16 @@ void Scene::Render()
 	{
 		RenderObjects();
 		player->Draw();
+		enemies->Draw();
+		shots->Draw();
 		
 	}
 	if (debug == DebugMode::SPRITES_AND_HITBOXES || debug == DebugMode::ONLY_HITBOXES)
 	{
 		RenderObjectsDebug(YELLOW);
+		enemies->DrawDebug();
+		player->DrawDebug(GREEN);
+		shots->DrawDebug(GRAY);
 	}
 
 	EndMode2D();
@@ -234,6 +254,27 @@ void Scene::Release()
 	level->Release();
 	player->Release();
 	ClearLevel();
+}
+bool Scene::ScoreCheck()
+{
+	if (player->GetScore() == 700)
+	{
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+bool Scene::VidaCheck()
+{
+	if (player->GetVida() == 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 void Scene::CheckCollisions()
 {
@@ -267,6 +308,9 @@ void Scene::ClearLevel()
 		delete obj;
 	}
 	objects.clear();
+	enemies->Release();
+	shots->Clear();
+	particles->Clear();
 }
 void Scene::RenderObjects() const
 {

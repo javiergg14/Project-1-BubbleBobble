@@ -6,7 +6,7 @@
 //Function return values
 enum class AppStatus { OK = 0, ERROR, QUIT };
 
-enum class GameState { MAIN_MENU, PLAYING1, SETTINGS, CREDITS, MAIN_TITLE, WINNING};
+enum class GameState { MAIN_MENU, PLAYING1, SETTINGS, CREDITS, MAIN_TITLE, WINNING, LOSE};
 
 //Main return values
 #define EXIT_SUCCESS	0
