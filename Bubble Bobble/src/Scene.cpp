@@ -7,6 +7,9 @@ Scene::Scene()
 {
 	player = nullptr;
 	level = nullptr;
+	enemies = nullptr;
+	shots = nullptr;
+	particles = nullptr;
 
 	font1 = nullptr;
 
@@ -36,6 +39,22 @@ Scene::~Scene()
 		delete obj;
 	}
 	objects.clear();
+	if (enemies != nullptr)
+	{
+		enemies->Release();
+		delete enemies;
+		enemies = nullptr;
+	}
+	if (shots != nullptr)
+	{
+		delete shots;
+		shots = nullptr;
+	}
+	if (particles != nullptr)
+	{
+		delete particles;
+		particles = nullptr;
+	}
 	if (font1 != nullptr)
 	{
 		delete font1;
@@ -55,6 +74,45 @@ AppStatus Scene::Init()
 	if (player->Initialise() != AppStatus::OK)
 	{
 		LOG("Failed to initialise Player");
+		return AppStatus::ERROR;
+	}
+
+	enemies = new EnemyManager();
+	if (enemies == nullptr)
+	{
+		LOG("Failed to allocate memory for Enemy Manager");
+		return AppStatus::ERROR;
+	}
+	//Initialise enemy manager
+	if (enemies->Initialise() != AppStatus::OK)
+	{
+		LOG("Failed to initialise Enemy Manager");
+		return AppStatus::ERROR;
+	}
+
+	shots = new ShotManager();
+	if (shots == nullptr)
+	{
+		LOG("Failed to allocate memory for Shot Manager");
+		return AppStatus::ERROR;
+	}
+	//Initialise shot manager
+	if (shots->Initialise() != AppStatus::OK)
+	{
+		LOG("Failed to initialise Shot Manager");
+		return AppStatus::ERROR;
+	}
+
+	particles = new ParticleManager();
+	if (particles == nullptr)
+	{
+		LOG("Failed to allocate memory for Particle Manager");
+		return AppStatus::ERROR;
+	}
+	//Initialise particle manager
+	if (particles->Initialise() != AppStatus::OK)
+	{
+		LOG("Failed to initialise Particle Manager");
 		return AppStatus::ERROR;
 	}
 
@@ -79,6 +137,12 @@ AppStatus Scene::Init()
 	}
 	//Assign the tile map reference to the player to check collisions while navigating
 	player->SetTileMap(level);
+	//Assign the tile map reference to the shot manager to check collisions when shots are shot
+	shots->SetTileMap(level);
+	//Assign the particle manager reference to the shot manager to add particles when shots collide
+	shots->SetParticleManager(particles);
+	//Assign the shot manager reference to the enemy manager so enemies can add shots
+	enemies->SetShotManager(shots);
 
 	font1 = new Text();
 	if (font1 == nullptr)
@@ -101,6 +165,7 @@ AppStatus Scene::LoadLevel(int stage)
 	Point pos;
 	int* map = nullptr;
 	Object* obj;
+	AABB hitbox, area;
 
 	ClearLevel();
 
@@ -134,7 +199,7 @@ AppStatus Scene::LoadLevel(int stage)
 				1, 1, 7, 3, 5, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 0, 0, 2, 3, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 6, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-				1, 1, 6, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+				1, 1, 6, 0, 0, 0, 0, 0, 200, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 				1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -149,6 +214,8 @@ AppStatus Scene::LoadLevel(int stage)
 		return AppStatus::ERROR;
 	}
 
+	level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT);
+
 	//Entities and objects
 	i = 0;
 	for (y = 0; y < LEVEL_HEIGHT; ++y)
@@ -156,32 +223,36 @@ AppStatus Scene::LoadLevel(int stage)
 		for (x = 0; x < LEVEL_WIDTH; ++x)
 		{
 			tile = (Tile)map[i];
-			if (tile == Tile::EMPTY)
-			{
-				map[i] = 0;
-			}
-			else if (tile == Tile::PLAYER)
+			if (level->IsTileEntity(tile) || level->IsTileObject(tile))
 			{
 				pos.x = x * TILE_SIZE;
 				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				player->SetPos(pos);
-				map[i] = 0;
-			}
-			else if (tile == Tile::EGG)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::EGG);
-				objects.push_back(obj);
-				map[i] = 0;
-			}
-			else if (tile == Tile::CARROT)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::CARROT);
-				objects.push_back(obj);
-				map[i] = 0;
+
+				if (tile == Tile::PLAYER)
+				{
+					player->SetPos(pos);
+				}
+				else if (tile == Tile::EGG)
+				{
+					obj = new Object(pos, ObjectType::EGG);
+					objects.push_back(obj);
+				}
+				else if (tile == Tile::CARROT)
+				{
+					obj = new Object(pos, ObjectType::CARROT);
+					objects.push_back(obj);
+				}
+				else if (tile == Tile::SLIME)
+				{
+					pos.x += (SLIME_FRAME_SIZE - SLIME_PHYSICAL_WIDTH) / 2;
+					hitbox = enemies->GetEnemyHitBox(pos, EnemyType::SLIME);
+					area = level->GetSweptAreaX(hitbox);
+					enemies->Add(pos, EnemyType::SLIME, area);
+				}
+				else
+				{
+					LOG("Internal error loading scene: invalid entity or object tile id")
+				}
 			}
 			++i;
 		}
@@ -195,6 +266,7 @@ void Scene::Update()
 {
 	Point p1, p2;
 	AABB box;
+	AABB hitbox;
 
 	//Switch between the different debug modes: off, on (sprites & hitboxes), on (hitboxes) 
 	if (IsKeyPressed(KEY_F1))
@@ -207,6 +279,11 @@ void Scene::Update()
 	player->Update();
 	
 	CheckCollisions();
+
+	hitbox = player->GetHitbox();
+	enemies->Update(hitbox);
+	shots->Update(hitbox);
+	particles->Update();
 	
 }
 void Scene::Render()
@@ -218,11 +295,16 @@ void Scene::Render()
 	{
 		RenderObjects();
 		player->Draw();
+		enemies->Draw();
+		shots->Draw();
 		
 	}
 	if (debug == DebugMode::SPRITES_AND_HITBOXES || debug == DebugMode::ONLY_HITBOXES)
 	{
 		RenderObjectsDebug(YELLOW);
+		enemies->DrawDebug();
+		player->DrawDebug(GREEN);
+		shots->DrawDebug(GRAY);
 	}
 
 	EndMode2D();
@@ -235,11 +317,34 @@ void Scene::Release()
 	player->Release();
 	ClearLevel();
 }
+bool Scene::ScoreCheck()
+{
+	if (player->GetScore() == 700)
+	{
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+bool Scene::VidaCheck()
+{
+	if (player->GetVida() == 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 void Scene::CheckCollisions()
 {
-	AABB player_box, obj_box;
+	AABB player_box, obj_box, enemies_box;
+	Point pos;
 
 	player_box = player->GetHitbox();
+	enemies_box = enemies->GetEnemyHitBox(pos, EnemyType::SLIME);
 	auto it = objects.begin();
 	while (it != objects.end())
 	{
@@ -253,12 +358,17 @@ void Scene::CheckCollisions()
 			//Erase the object from the vector and get the iterator to the next valid element
 			it = objects.erase(it);
 		}
+		else 	if (player_box.TestAABB(enemies_box))
+		{
+			player->IncrVida(1);
+		}
 		else
 		{
 			//Move to the next object
 			++it;
 		}
 	}
+
 }
 void Scene::ClearLevel()
 {
@@ -267,6 +377,9 @@ void Scene::ClearLevel()
 		delete obj;
 	}
 	objects.clear();
+	enemies->Release();
+	shots->Clear();
+	particles->Clear();
 }
 void Scene::RenderObjects() const
 {

@@ -87,6 +87,11 @@ AppStatus Game::LoadResources()
         return AppStatus::ERROR;
     }
     img_win = data.GetTexture(Resource::IMG_WIN);
+    if (data.LoadTexture(Resource::IMG_LOSE, "images/Lose.png") != AppStatus::OK)
+    {
+        return AppStatus::ERROR;
+    }
+    img_lose = data.GetTexture(Resource::IMG_LOSE);
 
     return AppStatus::OK;
 }
@@ -153,12 +158,28 @@ AppStatus Game::Update()
                 fade_transition.Set(GameState::MAIN_MENU, 60, GameState::PLAYING1, 60, dst);
             }
             break;
+        case GameState::LOSE:
+            if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
+            if (IsKeyPressed(KEY_SPACE))
+            {
+                //"state = GameState::PLAYING;" but not until halfway through the transition
+                fade_transition.Set(GameState::LOSE, 60, GameState::MAIN_MENU, 60, dst);
+            }
+            break;
 
         case GameState::PLAYING1:
             if (IsKeyPressed(KEY_ESCAPE))
             {
                 //"state = GameState::MAIN_MENU;" but not until halfway through the transition
                 fade_transition.Set(GameState::PLAYING1, 60, GameState::MAIN_MENU, 60, dst);
+            }
+            else if (scene->ScoreCheck() == true)
+            {
+                fade_transition.Set(GameState::PLAYING1, 60, GameState::WINNING, 60, dst);
+            }
+            else if (scene->VidaCheck() == true)
+            {
+                fade_transition.Set(GameState::PLAYING1, 60, GameState::LOSE, 60, dst);
             }
             else
             {
@@ -196,6 +217,9 @@ void Game::Render()
     case GameState::MAIN_MENU:
         DrawTexture(*img_menu, 0, 0, WHITE);
         break;
+    case GameState::LOSE:
+        DrawTexture(*img_lose, 0, 0, WHITE);
+        break;
 
     case GameState::PLAYING1:
         scene->Render();
@@ -221,6 +245,7 @@ void Game::UnloadResources()
     data.ReleaseTexture(Resource::IMG_TITLE);
     data.ReleaseTexture(Resource::IMG_MENU);
     data.ReleaseTexture(Resource::IMG_WIN);
+    data.ReleaseTexture(Resource::IMG_LOSE);
 
     UnloadRenderTexture(target);
 }

@@ -3,6 +3,9 @@
 #include "Player.h"
 #include "TileMap.h"
 #include "Object.h"
+#include "EnemyManager.h"
+#include "ShotManager.h"
+#include "ParticleManager.h"
 #include "Text.h"
 
 
@@ -19,6 +22,8 @@ public:
     void Update();
     void Render();
     void Release();
+    bool ScoreCheck();
+    bool VidaCheck();
 
 private:
     AppStatus LoadLevel(int stage);
@@ -31,10 +36,15 @@ private:
     void RenderGUI() const;
 
     Player* player;
+
+    EnemyManager* enemies;
+
+    ShotManager* shots;
+
+    ParticleManager* particles;
     
     TileMap* level;
     std::vector<Object*> objects;
-    std::vector<Object*> enemies;
 
     Camera2D camera;
     DebugMode debug;
