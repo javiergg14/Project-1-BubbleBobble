@@ -54,7 +54,7 @@ AppStatus TileMap::Initialise()
 	{
 		return AppStatus::ERROR;
 	}
-	img_enemies = data.GetTexture(Resource::IMG_FRUITS);
+	img_items = data.GetTexture(Resource::IMG_FRUITS);
 
 	laser = new Sprite(img_tiles);
 	if (laser == nullptr)

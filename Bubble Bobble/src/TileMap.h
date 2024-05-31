@@ -35,7 +35,7 @@ enum class Tile {
 	OBJECT_FIRST = EGG,
 	OBJECT_LAST = CARROT,
 	ENTITY_FIRST = PLAYER,
-	ENTITY_LAST = PLAYER,
+	ENTITY_LAST = SLIME,
 };
 
 class TileMap

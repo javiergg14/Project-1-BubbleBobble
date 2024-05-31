@@ -39,6 +39,22 @@ Scene::~Scene()
 		delete obj;
 	}
 	objects.clear();
+	if (enemies != nullptr)
+	{
+		enemies->Release();
+		delete enemies;
+		enemies = nullptr;
+	}
+	if (shots != nullptr)
+	{
+		delete shots;
+		shots = nullptr;
+	}
+	if (particles != nullptr)
+	{
+		delete particles;
+		particles = nullptr;
+	}
 	if (font1 != nullptr)
 	{
 		delete font1;
@@ -58,6 +74,45 @@ AppStatus Scene::Init()
 	if (player->Initialise() != AppStatus::OK)
 	{
 		LOG("Failed to initialise Player");
+		return AppStatus::ERROR;
+	}
+
+	enemies = new EnemyManager();
+	if (enemies == nullptr)
+	{
+		LOG("Failed to allocate memory for Enemy Manager");
+		return AppStatus::ERROR;
+	}
+	//Initialise enemy manager
+	if (enemies->Initialise() != AppStatus::OK)
+	{
+		LOG("Failed to initialise Enemy Manager");
+		return AppStatus::ERROR;
+	}
+
+	shots = new ShotManager();
+	if (shots == nullptr)
+	{
+		LOG("Failed to allocate memory for Shot Manager");
+		return AppStatus::ERROR;
+	}
+	//Initialise shot manager
+	if (shots->Initialise() != AppStatus::OK)
+	{
+		LOG("Failed to initialise Shot Manager");
+		return AppStatus::ERROR;
+	}
+
+	particles = new ParticleManager();
+	if (particles == nullptr)
+	{
+		LOG("Failed to allocate memory for Particle Manager");
+		return AppStatus::ERROR;
+	}
+	//Initialise particle manager
+	if (particles->Initialise() != AppStatus::OK)
+	{
+		LOG("Failed to initialise Particle Manager");
 		return AppStatus::ERROR;
 	}
 
@@ -82,6 +137,12 @@ AppStatus Scene::Init()
 	}
 	//Assign the tile map reference to the player to check collisions while navigating
 	player->SetTileMap(level);
+	//Assign the tile map reference to the shot manager to check collisions when shots are shot
+	shots->SetTileMap(level);
+	//Assign the particle manager reference to the shot manager to add particles when shots collide
+	shots->SetParticleManager(particles);
+	//Assign the shot manager reference to the enemy manager so enemies can add shots
+	enemies->SetShotManager(shots);
 
 	font1 = new Text();
 	if (font1 == nullptr)
@@ -138,7 +199,7 @@ AppStatus Scene::LoadLevel(int stage)
 				1, 1, 7, 3, 5, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 5, 0, 0, 2, 3, 1, 1,
 				1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 6, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-				1, 1, 6, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+				1, 1, 6, 0, 0, 0, 0, 0, 200, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 				1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 				1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -153,8 +214,9 @@ AppStatus Scene::LoadLevel(int stage)
 		return AppStatus::ERROR;
 	}
 
+	level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT);
+
 	//Entities and objects
-	i = 0;
 	i = 0;
 	for (y = 0; y < LEVEL_HEIGHT; ++y)
 	{
@@ -278,9 +340,11 @@ bool Scene::VidaCheck()
 }
 void Scene::CheckCollisions()
 {
-	AABB player_box, obj_box;
+	AABB player_box, obj_box, enemies_box;
+	Point pos;
 
 	player_box = player->GetHitbox();
+	enemies_box = enemies->GetEnemyHitBox(pos, EnemyType::SLIME);
 	auto it = objects.begin();
 	while (it != objects.end())
 	{
@@ -294,12 +358,17 @@ void Scene::CheckCollisions()
 			//Erase the object from the vector and get the iterator to the next valid element
 			it = objects.erase(it);
 		}
+		else 	if (player_box.TestAABB(enemies_box))
+		{
+			player->IncrVida(1);
+		}
 		else
 		{
 			//Move to the next object
 			++it;
 		}
 	}
+
 }
 void Scene::ClearLevel()
 {

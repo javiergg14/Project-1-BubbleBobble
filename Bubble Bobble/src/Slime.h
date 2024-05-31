@@ -2,7 +2,7 @@
 #include "Enemy.h"
 
 #define SLIME_SPEED			1
-#define SLIME_ANIM_DELAY	(4*ANIM_DELAY)
+#define SLIME_ANIM_DELAY	(2*ANIM_DELAY)
 
 #define SLIME_SHOT_OFFSET_X_LEFT	-14
 #define SLIME_SHOT_OFFSET_X_RIGHT	 26
