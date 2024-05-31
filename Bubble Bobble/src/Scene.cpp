@@ -338,13 +338,17 @@ bool Scene::VidaCheck()
 		return false;
 	}
 }
+AABB Scene::Send()
+{
+	return enemies->GetHitbox();
+}
 void Scene::CheckCollisions()
 {
 	AABB player_box, obj_box, enemies_box;
 	Point pos;
 
 	player_box = player->GetHitbox();
-	enemies_box = enemies->GetEnemyHitBox(pos, EnemyType::SLIME);
+	enemies_box = enemies->GetHitbox();
 	auto it = objects.begin();
 	while (it != objects.end())
 	{
@@ -358,7 +362,7 @@ void Scene::CheckCollisions()
 			//Erase the object from the vector and get the iterator to the next valid element
 			it = objects.erase(it);
 		}
-		else 	if (player_box.TestAABB(enemies_box))
+		else if (player_box.TestAABB(enemies_box))
 		{
 			player->IncrVida(1);
 		}

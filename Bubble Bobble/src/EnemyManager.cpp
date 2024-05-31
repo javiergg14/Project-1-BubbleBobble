@@ -58,6 +58,12 @@ AABB EnemyManager::GetEnemyHitBox(const Point& pos, EnemyType type) const
 	AABB hitbox(p, width, height);
 	return hitbox;
 }
+AABB EnemyManager::GetHitbox() const
+{
+	Point p(pos.x, pos.y - (height - 1));
+	AABB hitbox(p, width, height);
+	return hitbox;
+}
 void EnemyManager::Update(const AABB& player_hitbox)
 {
 	bool shoot;

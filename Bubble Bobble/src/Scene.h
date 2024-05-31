@@ -24,6 +24,7 @@ public:
     void Release();
     bool ScoreCheck();
     bool VidaCheck();
+    AABB Send();
 
 private:
     AppStatus LoadLevel(int stage);
