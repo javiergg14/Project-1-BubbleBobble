@@ -25,6 +25,8 @@ public:
     bool ScoreCheck();
     bool VidaCheck();
 
+    int current_stage = 1;
+
 private:
     AppStatus LoadLevel(int stage);
 

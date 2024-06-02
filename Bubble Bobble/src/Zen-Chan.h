@@ -38,7 +38,10 @@ public:
 
 private:
 	//Create the pattern behaviour
-	void InitPattern();
+	void InitPattern1();
+	void InitPattern2();
+	void InitPattern3();
+	void InitPattern4();
 	
 	//Update looking direction according to the current step of the pattern
 	void UpdateLook(int anim_id);

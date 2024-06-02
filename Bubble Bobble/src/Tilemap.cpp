@@ -9,7 +9,10 @@ TileMap::TileMap()
 	width = 0;
 	height = 0;
 	laser = nullptr;
-	img_tiles = nullptr;
+	img_tiles1 = nullptr;
+	img_tiles2 = nullptr;
+	img_tiles3 = nullptr;
+	img_tiles4 = nullptr;
 
 	InitTileDictionary();
 }
@@ -38,17 +41,53 @@ void TileMap::InitTileDictionary()
 	dict_rect[(int)Tile::SHADOW_VERTICAL_EDGE_2] = { 2 * n,  n, n, n };
 	dict_rect[(int)Tile::VERTICAL_SHADOW] = { n,  n, n, n };
 	dict_rect[(int)Tile::TOTAL_EDGE_SHADOW] = { 0, n, n, n };
+	dict_rect[(int)Tile::ESQUINA2] = { 0, n, n, n };
+	dict_rect[(int)Tile::BLOQUE2] = { 0, n, n, n };
+	dict_rect[(int)Tile::LATERAL2] = { 0, n, n, n };
+	dict_rect[(int)Tile::HORIZONTALESQUINA2] = { 0, n, n, n };
+	dict_rect[(int)Tile::HORIZONTAL2] = { 0, n, n, n };
+	dict_rect[(int)Tile::HORIZONTALESQUINA2] = { 0, n, n, n };
+	dict_rect[(int)Tile::VERTICAL2] = { 0, n, n, n };
+	dict_rect[(int)Tile::ESQUINA3] = { 0, n, n, n };
+	dict_rect[(int)Tile::BLOQUE3] = { 0, n, n, n };
+	dict_rect[(int)Tile::LATERAL3] = { 0, n, n, n };
+	dict_rect[(int)Tile::HORIZONTALESQUINA3] = { 0, n, n, n };
+	dict_rect[(int)Tile::HORIZONTAL3] = { 0, n, n, n };
+	dict_rect[(int)Tile::HORIZONTALESQUINA3] = { 0, n, n, n };
+	dict_rect[(int)Tile::VERTICAL3] = { 0, n, n, n };
+	dict_rect[(int)Tile::ESQUINA4] = { 0, n, n, n };
+	dict_rect[(int)Tile::BLOQUE4] = { 0, n, n, n };
+	dict_rect[(int)Tile::LATERAL4] = { 0, n, n, n };
+	dict_rect[(int)Tile::HORIZONTALESQUINA4] = { 0, n, n, n };
+	dict_rect[(int)Tile::HORIZONTAL4] = { 0, n, n, n };
+	dict_rect[(int)Tile::HORIZONTALESQUINA4] = { 0, n, n, n };
+	dict_rect[(int)Tile::VERTICAL4] = { 0, n, n, n };
 
 }
 AppStatus TileMap::Initialise()
 {
 	ResourceManager& data = ResourceManager::Instance();
 
-	if (data.LoadTexture(Resource::IMG_TILES, "images/Tilesetlvl1.png") != AppStatus::OK)
+	if (data.LoadTexture(Resource::IMG_TILES1, "images/Tilesetlvl1.png") != AppStatus::OK)
 	{
 		return AppStatus::ERROR;
 	}
-	img_tiles = data.GetTexture(Resource::IMG_TILES);
+	img_tiles1 = data.GetTexture(Resource::IMG_TILES1);
+	if (data.LoadTexture(Resource::IMG_TILES2, "images/Tilesetlvl2.png") != AppStatus::OK)
+	{
+		return AppStatus::ERROR;
+	}
+	img_tiles2 = data.GetTexture(Resource::IMG_TILES2);
+	if (data.LoadTexture(Resource::IMG_TILES3, "images/Tilesetlvl3.png") != AppStatus::OK)
+	{
+		return AppStatus::ERROR;
+	}
+	img_tiles3 = data.GetTexture(Resource::IMG_TILES3);
+	if (data.LoadTexture(Resource::IMG_TILES4, "images/Tilesetlvl4.png") != AppStatus::OK)
+	{
+		return AppStatus::ERROR;
+	}
+	img_tiles4 = data.GetTexture(Resource::IMG_TILES4);
 
 	if (data.LoadTexture(Resource::IMG_FRUITS, "images/Fruits.png") != AppStatus::OK)
 	{
@@ -56,7 +95,7 @@ AppStatus TileMap::Initialise()
 	}
 	img_items = data.GetTexture(Resource::IMG_FRUITS);
 
-	laser = new Sprite(img_tiles);
+	laser = new Sprite(img_tiles1);
 	if (laser == nullptr)
 	{
 		LOG("Failed to allocate memory for laser sprite");
@@ -252,7 +291,7 @@ void TileMap::Render()
 				if (tile != Tile::LASER)
 				{
 					rc = dict_rect[(int)tile];
-					DrawTextureRec(*img_tiles, rc, pos, WHITE);
+					DrawTextureRec(*img_tiles1, rc, pos, WHITE);
 				}
 				else
 				{
@@ -265,7 +304,7 @@ void TileMap::Render()
 void TileMap::Release()
 {
 	ResourceManager& data = ResourceManager::Instance();
-	data.ReleaseTexture(Resource::IMG_TILES);
+	data.ReleaseTexture(Resource::IMG_TILES1);
 
 	laser->Release();
 

@@ -15,7 +15,9 @@ enum class Tile {
 
 	// 0 < id < 50: static tiles
 	BLOCK = 1, SHADOW_EDGE, SHADOW, SHADOW_EDGE_VERTICAL,
-	SHADOW_VERTICAL_EDGE_2, VERTICAL_SHADOW, TOTAL_EDGE_SHADOW,
+	SHADOW_VERTICAL_EDGE_2, VERTICAL_SHADOW, TOTAL_EDGE_SHADOW, LATERAL2, BLOQUE2, ESQUINA2, VERTICAL2, HORIZONTAL2, HORIZONTALESQUINA2, VERTICALESQUINA2,
+	LATERAL3, BLOQUE3, ESQUINA3, VERTICAL3, HORIZONTAL3, HORIZONTALESQUINA3, VERTICALESQUINA3,
+	LATERAL4, BLOQUE4, ESQUINA4, VERTICAL4, HORIZONTAL4, HORIZONTALESQUINA4, VERTICALESQUINA4,
 
 
 	// 50 <= id < 100: special tiles
@@ -92,7 +94,10 @@ private:
 	Sprite* laser;
 
 	//Tile sheet
-	const Texture2D* img_tiles;
+	const Texture2D* img_tiles1;
+	const Texture2D* img_tiles2;
+	const Texture2D* img_tiles3;
+	const Texture2D* img_tiles4;
 	const Texture2D* img_enemies;
 	const Texture2D* img_items;
 };

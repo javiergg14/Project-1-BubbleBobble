@@ -1,4 +1,4 @@
-#include "Slime.h"
+#include "Zen-Chan.h"
 #include "Sprite.h"
 
 Slime::Slime(const Point& p, int width, int height, int frame_width, int frame_height) :
@@ -49,22 +49,78 @@ AppStatus Slime::Initialise(Look look, const AABB& area)
 	
 	visibility_area = area;
 
-	InitPattern();
+	int num;
+	num = GetRandomValue(1, 4);
+	if (num ==1)
+	{
+		InitPattern1();
+	}
+	else if (num == 2)
+	{
+		InitPattern2();
+	}
+	else if (num == 3)
+	{
+		InitPattern3();
+	}
+	else if (num == 4)
+	{
+		InitPattern4();
+	}
 
 	return AppStatus::OK;
 }
-void Slime::InitPattern()
+void Slime::InitPattern1()
 {
-	//Multiplying by 3 ensures sufficient time for displaying all 3 frames of the
-	//walking animation, resulting in smoother transitions and preventing the animation
-	//from appearing rushed or incomplete
-	const int n = SLIME_ANIM_DELAY*6;
-
+	const int n = SLIME_ANIM_DELAY*2;
 	pattern.push_back({ {0, 0}, 2, (int)SlimeAnim::IDLE_RIGHT });
-	pattern.push_back({ {SLIME_SPEED, 0}, 2*n, (int)SlimeAnim::WALKING_RIGHT });
+	pattern.push_back({ {SLIME_SPEED, 0}, 3*n, (int)SlimeAnim::WALKING_RIGHT });
 	pattern.push_back({ {0, 0}, 2, (int)SlimeAnim::IDLE_LEFT });
-	pattern.push_back({ {-SLIME_SPEED, 0}, 2*n, (int)SlimeAnim::WALKING_LEFT });
+	pattern.push_back({ {-SLIME_SPEED, 0}, 3*n, (int)SlimeAnim::WALKING_LEFT });
 	
+	current_step = 0;
+	current_frames = 0;
+}
+void Slime::InitPattern2()
+{
+	const int n = SLIME_ANIM_DELAY * 2;
+	pattern.push_back({ {0, 0}, 2, (int)SlimeAnim::IDLE_LEFT });
+	pattern.push_back({ {-SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_LEFT });
+	pattern.push_back({ {0, 0}, 2, (int)SlimeAnim::IDLE_RIGHT });
+	pattern.push_back({ {SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_RIGHT });
+	
+
+	current_step = 0;
+	current_frames = 0;
+}
+void Slime::InitPattern3()
+{
+	const int n = SLIME_ANIM_DELAY * 2;
+	pattern.push_back({ {0, 0}, 2*n, (int)SlimeAnim::IDLE_RIGHT });
+	pattern.push_back({ {SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_RIGHT });
+	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_RIGHT });
+	pattern.push_back({ {SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_RIGHT });
+	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_LEFT });
+	pattern.push_back({ {-SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_LEFT });
+	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_LEFT });
+	pattern.push_back({ {-SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_LEFT });
+
+	current_step = 0;
+	current_frames = 0;
+}
+void Slime::InitPattern4()
+{
+	const int n = SLIME_ANIM_DELAY * 2;
+	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_LEFT });
+	pattern.push_back({ {-SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_LEFT });
+	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_LEFT });
+	pattern.push_back({ {-SLIME_SPEED , 0}, 2 * n, (int)SlimeAnim::WALKING_LEFT });
+	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_RIGHT });
+	pattern.push_back({ {SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_RIGHT });
+	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_RIGHT });
+	pattern.push_back({ {SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_RIGHT });
+	
+
 	current_step = 0;
 	current_frames = 0;
 }
@@ -74,20 +130,7 @@ bool Slime::Update(const AABB& box)
 	bool shoot = false;
 	int anim_id;
 
-	if (state == SlimeState::ROAMING)
-	{
-		//if (IsVisible(box))
-		//{
-		//	//state = SlimeState::ATTACK;
-		//	////The attack animation consists of 2 frames, with the second one being when
-		//	////we throw the shot. Wait for a frame before initiating the attack.
-		//	//attack_delay = SLIME_ANIM_DELAY;
 
-		//	//if (look == Look::LEFT)	sprite->SetAnimation((int)SlimeAnim::ATTACK_LEFT);
-		//	//else					sprite->SetAnimation((int)SlimeAnim::ATTACK_RIGHT);
-		//}
-		//else
-		{
 			pos += pattern[current_step].speed;
 			current_frames++;
 
@@ -101,31 +144,7 @@ bool Slime::Update(const AABB& box)
 				sprite->SetAnimation(anim_id);
 				UpdateLook(anim_id);
 			}
-		}
-	}
-	//else if (state == SlimeState::ATTACK)
-	//{
-	//	if(!IsVisible(box))
-	//	{
-	//		state = SlimeState::ROAMING;
-
-	//		//Continue with the previous animation pattern before initiating the attack
-	//		anim_id = pattern[current_step].anim;
-	//		sprite->SetAnimation(anim_id);
-	//	}
-	//	else
-	//	{
-	//		attack_delay--;
-	//		if (attack_delay == 0)
-	//		{
-	//			shoot = true;
-
-	//			//The attack animation consists of 2 frames. Wait for a complete loop
-	//			//before shooting again
-	//			attack_delay = 2*SLIME_ANIM_DELAY;
-	//		}
-	//	}
-	//}
+	
 	sprite->Update();
 
 	return shoot;
