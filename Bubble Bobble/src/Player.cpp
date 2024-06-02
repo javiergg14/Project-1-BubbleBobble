@@ -299,10 +299,10 @@ void Player::Shoot()
 	}
 	else
 	{
-		if (IsKeyDown(KEY_X))
+		/*if (IsKeyDown(KEY_X))
 		{				
 				LogicShooting();
-		}
+		}*/
 	}
 }
 void Player::LogicShooting()
