@@ -41,20 +41,14 @@ void TileMap::InitTileDictionary()
 	dict_rect[(int)Tile::SHADOW_VERTICAL_EDGE_2] = { 2 * n,  n, n, n };
 	dict_rect[(int)Tile::VERTICAL_SHADOW] = { n,  n, n, n };
 	dict_rect[(int)Tile::TOTAL_EDGE_SHADOW] = { 0, n, n, n };
-	dict_rect[(int)Tile::ESQUINA2] = { 0, n, n, n };
-	dict_rect[(int)Tile::BLOQUE2] = { 0, n, n, n };
-	dict_rect[(int)Tile::LATERAL2] = { 0, n, n, n };
-	dict_rect[(int)Tile::HORIZONTALESQUINA2] = { 0, n, n, n };
-	dict_rect[(int)Tile::HORIZONTAL2] = { 0, n, n, n };
-	dict_rect[(int)Tile::HORIZONTALESQUINA2] = { 0, n, n, n };
-	dict_rect[(int)Tile::VERTICAL2] = { 0, n, n, n };
-	dict_rect[(int)Tile::ESQUINA3] = { 0, n, n, n };
-	dict_rect[(int)Tile::BLOQUE3] = { 0, n, n, n };
-	dict_rect[(int)Tile::LATERAL3] = { 0, n, n, n };
-	dict_rect[(int)Tile::HORIZONTALESQUINA3] = { 0, n, n, n };
-	dict_rect[(int)Tile::HORIZONTAL3] = { 0, n, n, n };
-	dict_rect[(int)Tile::HORIZONTALESQUINA3] = { 0, n, n, n };
-	dict_rect[(int)Tile::VERTICAL3] = { 0, n, n, n };
+	dict_rect[(int)Tile::BLOQUE2] = { 0, 2*n, n, n };
+	dict_rect[(int)Tile::LATERAL21] = { 4*n, 2*n, n, n };
+	dict_rect[(int)Tile::LATERAL22] = { 5 * n, 2 * n, 2 * n, 2 * n };
+	dict_rect[(int)Tile::LATERAL23] = { 4 * n, 3 * n, 2 * n, 2 * n };
+	dict_rect[(int)Tile::LATERAL24] = { 5 * n, 3 * n, 2 * n, 2 * n };
+	dict_rect[(int)Tile::BLOQUE3] = { 0, 4*n, n, n };
+	dict_rect[(int)Tile::LATERAL32] = { 4*n, 5*n, n, n };
+	dict_rect[(int)Tile::LATERAL33] = { 5 * n, 5 * n, n, n };
 	dict_rect[(int)Tile::ESQUINA4] = { 0, n, n, n };
 	dict_rect[(int)Tile::BLOQUE4] = { 0, n, n, n };
 	dict_rect[(int)Tile::LATERAL4] = { 0, n, n, n };
@@ -68,26 +62,11 @@ AppStatus TileMap::Initialise()
 {
 	ResourceManager& data = ResourceManager::Instance();
 
-	if (data.LoadTexture(Resource::IMG_TILES1, "images/Tilesetlvl1.png") != AppStatus::OK)
+	if (data.LoadTexture(Resource::IMG_TILES1, "images/Tilesetniveles.png") != AppStatus::OK)
 	{
 		return AppStatus::ERROR;
 	}
 	img_tiles1 = data.GetTexture(Resource::IMG_TILES1);
-	if (data.LoadTexture(Resource::IMG_TILES2, "images/Tilesetlvl2.png") != AppStatus::OK)
-	{
-		return AppStatus::ERROR;
-	}
-	img_tiles2 = data.GetTexture(Resource::IMG_TILES2);
-	if (data.LoadTexture(Resource::IMG_TILES3, "images/Tilesetlvl3.png") != AppStatus::OK)
-	{
-		return AppStatus::ERROR;
-	}
-	img_tiles3 = data.GetTexture(Resource::IMG_TILES3);
-	if (data.LoadTexture(Resource::IMG_TILES4, "images/Tilesetlvl4.png") != AppStatus::OK)
-	{
-		return AppStatus::ERROR;
-	}
-	img_tiles4 = data.GetTexture(Resource::IMG_TILES4);
 
 	if (data.LoadTexture(Resource::IMG_FRUITS, "images/Fruits.png") != AppStatus::OK)
 	{
