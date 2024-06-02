@@ -132,6 +132,7 @@ private:
 
 
 	Sound JumpSound;
+	Sound FruitSound;
 	Sound AttackSound;
 
 	int v = 0;

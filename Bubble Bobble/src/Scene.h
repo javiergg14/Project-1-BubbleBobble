@@ -54,5 +54,6 @@ private:
     DebugMode debug;
 
     Text* font1;
+    Sound FruitSound;
 };
 
