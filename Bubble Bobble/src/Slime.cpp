@@ -30,16 +30,18 @@ AppStatus Slime::Initialise(Look look, const AABB& area)
 	sprite->SetNumberAnimations((int)SlimeAnim::NUM_ANIMATIONS);
 
 	sprite->SetAnimationDelay((int)SlimeAnim::IDLE_RIGHT, SLIME_ANIM_DELAY);
-	sprite->AddKeyFrame((int)SlimeAnim::IDLE_RIGHT, { 0, 0, n, n });
+	sprite->AddKeyFrame((int)SlimeAnim::IDLE_RIGHT, { 0, 0, -n, n });
 	sprite->SetAnimationDelay((int)SlimeAnim::IDLE_LEFT, SLIME_ANIM_DELAY);
-	sprite->AddKeyFrame((int)SlimeAnim::IDLE_LEFT, { 0, 0, -n, n });
+	sprite->AddKeyFrame((int)SlimeAnim::IDLE_LEFT, { 0, 0, n, n });
 
 	sprite->SetAnimationDelay((int)SlimeAnim::WALKING_RIGHT, SLIME_ANIM_DELAY);
 	for (i = 1; i <= 3; ++i)
-		sprite->AddKeyFrame((int)SlimeAnim::WALKING_RIGHT, { (float)i*n, 0, n, n });
+		sprite->AddKeyFrame((int)SlimeAnim::WALKING_RIGHT, { (float)i*n, 0, -n, n });
 	sprite->SetAnimationDelay((int)SlimeAnim::WALKING_LEFT, SLIME_ANIM_DELAY);
 	for (i = 1; i <= 3; ++i)
-		sprite->AddKeyFrame((int)SlimeAnim::WALKING_LEFT, { (float)i*n, 0, -n, n });
+		sprite->AddKeyFrame((int)SlimeAnim::WALKING_LEFT, { (float)i*n, 0, n, n });
+
+	sprite->SetAnimationDelay((int)SlimeAnim::ATTACK_RIGHT, SLIME_ANIM_DELAY);
 
 	this->look = look;
 	if(look == Look::LEFT)        sprite->SetAnimation((int)SlimeAnim::IDLE_LEFT);
@@ -56,19 +58,12 @@ void Slime::InitPattern()
 	//Multiplying by 3 ensures sufficient time for displaying all 3 frames of the
 	//walking animation, resulting in smoother transitions and preventing the animation
 	//from appearing rushed or incomplete
-	const int n = SLIME_ANIM_DELAY*3;
+	const int n = SLIME_ANIM_DELAY*6;
 
-	pattern.push_back({ {0, 0}, 2*n, (int)SlimeAnim::IDLE_RIGHT });
-	pattern.push_back({ {SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_RIGHT });
-	pattern.push_back({ {0, 0}, n, (int)SlimeAnim::IDLE_RIGHT });
-	pattern.push_back({ {SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_RIGHT });
-	pattern.push_back({ {0, 0}, n, (int)SlimeAnim::IDLE_RIGHT });
-	
-	pattern.push_back({ {0, 0}, 2*n, (int)SlimeAnim::IDLE_LEFT });
-	pattern.push_back({ {-SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_LEFT });
-	pattern.push_back({ {0, 0}, n, (int)SlimeAnim::IDLE_LEFT });
-	pattern.push_back({ {-SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_LEFT });
-	pattern.push_back({ {0, 0}, n, (int)SlimeAnim::IDLE_LEFT });
+	pattern.push_back({ {0, 0}, 2, (int)SlimeAnim::IDLE_RIGHT });
+	pattern.push_back({ {SLIME_SPEED, 0}, 2*n, (int)SlimeAnim::WALKING_RIGHT });
+	pattern.push_back({ {0, 0}, 2, (int)SlimeAnim::IDLE_LEFT });
+	pattern.push_back({ {-SLIME_SPEED, 0}, 2*n, (int)SlimeAnim::WALKING_LEFT });
 	
 	current_step = 0;
 	current_frames = 0;
@@ -81,17 +76,17 @@ bool Slime::Update(const AABB& box)
 
 	if (state == SlimeState::ROAMING)
 	{
-		if (IsVisible(box))
-		{
-			//state = SlimeState::ATTACK;
-			////The attack animation consists of 2 frames, with the second one being when
-			////we throw the shot. Wait for a frame before initiating the attack.
-			//attack_delay = SLIME_ANIM_DELAY;
+		//if (IsVisible(box))
+		//{
+		//	//state = SlimeState::ATTACK;
+		//	////The attack animation consists of 2 frames, with the second one being when
+		//	////we throw the shot. Wait for a frame before initiating the attack.
+		//	//attack_delay = SLIME_ANIM_DELAY;
 
-			//if (look == Look::LEFT)	sprite->SetAnimation((int)SlimeAnim::ATTACK_LEFT);
-			//else					sprite->SetAnimation((int)SlimeAnim::ATTACK_RIGHT);
-		}
-		else
+		//	//if (look == Look::LEFT)	sprite->SetAnimation((int)SlimeAnim::ATTACK_LEFT);
+		//	//else					sprite->SetAnimation((int)SlimeAnim::ATTACK_RIGHT);
+		//}
+		//else
 		{
 			pos += pattern[current_step].speed;
 			current_frames++;

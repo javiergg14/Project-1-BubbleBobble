@@ -49,16 +49,17 @@ AABB EnemyManager::GetEnemyHitBox(const Point& pos, EnemyType type) const
 		width = SLIME_PHYSICAL_WIDTH;
 		height = SLIME_PHYSICAL_HEIGHT;
 	}
-	else if (type == EnemyType::TURRET)
-	{
-		width = TURRET_PHYSICAL_WIDTH;
-		height = TURRET_PHYSICAL_HEIGHT;
-	}
 	else
 	{
 		LOG("Internal error while computing hitbox for an invalid enemy type");
 		return {};
 	}
+	Point p(pos.x, pos.y - (height - 1));
+	AABB hitbox(p, width, height);
+	return hitbox;
+}
+AABB EnemyManager::GetHitbox() const
+{
 	Point p(pos.x, pos.y - (height - 1));
 	AABB hitbox(p, width, height);
 	return hitbox;

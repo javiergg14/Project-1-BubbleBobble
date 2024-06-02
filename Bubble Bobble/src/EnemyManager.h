@@ -18,7 +18,8 @@ public:
 
 	//Retrieve the hitbox of an enemy based on the given position and type
 	AABB GetEnemyHitBox(const Point& pos, EnemyType type) const;
-	
+
+	AABB GetHitbox() const;
 	//Update enemies according to their logic. If the given player hitbox is visible to them,
 	//they will shoot by adding shots to the ShotManager
 	void Update(const AABB& player_hitbox);
@@ -32,11 +33,15 @@ public:
 	//Delete all enemies and clear the enemy vector
 	void Release();
 
+
 private:
 	std::vector<Enemy*> enemies;
 	
 	//Reference to the ShotManager object
 	//This class does not own the object, it only holds a reference to it
 	ShotManager *shots;
+protected:
+	Point pos, dir;
+	int width, height;
 };
 
