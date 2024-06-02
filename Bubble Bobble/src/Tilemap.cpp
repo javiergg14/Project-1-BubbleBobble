@@ -57,7 +57,6 @@ void TileMap::InitTileDictionary()
 	dict_rect[(int)Tile::LATERAL44] = { 5*n, 7*n, n, n };
 	dict_rect[(int)Tile::HORIZONTALESQUINA4] = { n, 6*n, n, n };
 	dict_rect[(int)Tile::HORIZONTAL4] = { 2*n, 6*n, n, n };
-	dict_rect[(int)Tile::HORIZONTALESQUINA4] = { 0, n, n, n };
 	dict_rect[(int)Tile::VERTICAL4] = { n, 7*n, n, n };
 
 }
