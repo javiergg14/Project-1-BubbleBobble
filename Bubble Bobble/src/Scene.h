@@ -24,7 +24,6 @@ public:
     void Release();
     bool ScoreCheck();
     bool VidaCheck();
-    AABB Send();
 
 private:
     AppStatus LoadLevel(int stage);
@@ -33,6 +32,8 @@ private:
     void ClearLevel();
     void RenderObjects() const;
     void RenderObjectsDebug(const Color& col) const;
+
+    void CheckEnemiesCollisions();
 
     void RenderGUI() const;
 

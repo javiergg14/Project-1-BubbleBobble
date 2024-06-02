@@ -22,6 +22,8 @@ public:
 	AABB GetHitbox() const;
 	Point GetPos() const;
 
+	void OutOfScreen();
+
 	void SetAlive(bool b);
 	bool IsAlive() const;
 

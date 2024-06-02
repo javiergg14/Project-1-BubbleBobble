@@ -1,5 +1,7 @@
 #pragma once
 #include "Entity.h"
+#include "ParticleManager.h"
+
 
 #define OBJECT_PHYSICAL_SIZE	14
 #define OBJECT_FRAME_SIZE		16
@@ -18,6 +20,8 @@ public:
 
 	void DrawDebug(const Color& col) const;
 	int Points() const;
+	void SetParticleManager(ParticleManager* particles);
+	ParticleManager* particles;
 
 private:
 	ObjectType type;

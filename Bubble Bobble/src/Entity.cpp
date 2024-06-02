@@ -54,6 +54,13 @@ AABB Entity::GetHitbox() const
 	AABB hitbox(p, width, height);
 	return hitbox;
 }
+void Entity::OutOfScreen()
+{
+	if (pos.y > 658)
+	{
+		SetPos({ GetPos().x, -20 });
+	}
+}
 void Entity::SetAlive(bool b)
 {
 	alive = b;

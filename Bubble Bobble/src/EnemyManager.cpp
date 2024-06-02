@@ -17,6 +17,11 @@ AppStatus EnemyManager::Initialise()
 		LOG("Failed to load enemies sprite texture");
 		return AppStatus::ERROR;
 	}
+	else if (data.LoadTexture(Resource::PART, "images/puntuaciones.png") != AppStatus::OK)
+	{
+		LOG("Failed to load enemies sprite texture");
+		return AppStatus::ERROR;
+	}
 
 	return AppStatus::OK;
 }
@@ -58,12 +63,6 @@ AABB EnemyManager::GetEnemyHitBox(const Point& pos, EnemyType type) const
 	AABB hitbox(p, width, height);
 	return hitbox;
 }
-AABB EnemyManager::GetHitbox() const
-{
-	Point p(pos.x, pos.y - (height - 1));
-	AABB hitbox(p, width, height);
-	return hitbox;
-}
 void EnemyManager::Update(const AABB& player_hitbox)
 {
 	bool shoot;
@@ -78,6 +77,20 @@ void EnemyManager::Update(const AABB& player_hitbox)
 			shots->Add(p, d);
 		}
 	}
+}
+std::vector<Enemy*> EnemyManager:: GetEnemies() const
+{
+	return enemies;
+}
+std::vector<AABB> EnemyManager::GetHitBoxes() const
+{
+	std::vector<AABB> hitboxes;
+	for (Enemy* enemy : enemies)
+	{
+		hitboxes.push_back(enemy->GetHitbox());
+	}
+
+	return hitboxes;
 }
 void EnemyManager::Draw() const
 {

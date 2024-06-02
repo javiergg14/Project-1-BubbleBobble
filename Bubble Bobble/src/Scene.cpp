@@ -2,6 +2,7 @@
 #include "Game.h"
 #include <stdio.h>
 #include "Globals.h"
+#include "EnemyManager.h"
 
 Scene::Scene()
 {
@@ -279,6 +280,7 @@ void Scene::Update()
 	player->Update();
 	
 	CheckCollisions();
+	CheckEnemiesCollisions();
 
 	hitbox = player->GetHitbox();
 	enemies->Update(hitbox);
@@ -306,6 +308,7 @@ void Scene::Render()
 		player->DrawDebug(GREEN);
 		shots->DrawDebug(GRAY);
 	}
+	particles->Draw();
 
 	EndMode2D();
 
@@ -338,17 +341,12 @@ bool Scene::VidaCheck()
 		return false;
 	}
 }
-AABB Scene::Send()
-{
-	return enemies->GetHitbox();
-}
 void Scene::CheckCollisions()
 {
 	AABB player_box, obj_box, enemies_box;
 	Point pos;
 
 	player_box = player->GetHitbox();
-	enemies_box = enemies->GetHitbox();
 	auto it = objects.begin();
 	while (it != objects.end())
 	{
@@ -362,10 +360,6 @@ void Scene::CheckCollisions()
 			//Erase the object from the vector and get the iterator to the next valid element
 			it = objects.erase(it);
 		}
-		else if (player_box.TestAABB(enemies_box))
-		{
-			player->IncrVida(1);
-		}
 		else
 		{
 			//Move to the next object
@@ -373,6 +367,10 @@ void Scene::CheckCollisions()
 		}
 	}
 
+}
+void Scene::CheckEnemiesCollisions()
+{
+	player->SetEnemiesHitbox(enemies->GetHitBoxes());
 }
 void Scene::ClearLevel()
 {

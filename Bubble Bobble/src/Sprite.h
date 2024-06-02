@@ -36,6 +36,8 @@ public:
 
     void Release() override;
 
+    bool IsLastFrame();
+
 private:
     int current_anim;
     int current_frame;

@@ -4,6 +4,7 @@
 Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, OBJECT_PHYSICAL_SIZE, OBJECT_FRAME_SIZE, OBJECT_FRAME_SIZE)
 {
 	type = t;
+	particles = nullptr;
 
 	Rectangle rc;
 	const int n = 16;
@@ -22,14 +23,33 @@ Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, O
 Object::~Object()
 {
 }
+void Object::SetParticleManager(ParticleManager* particles)
+{
+	this->particles = particles;
+}
 void Object::DrawDebug(const Color& col) const
 {
 	Entity::DrawHitbox(pos.x, pos.y, width, height, col);
 }
 int Object::Points() const
 {
-	if (type == ObjectType::EGG)		return POINTS_EGG;
-	else if (type == ObjectType::CARROT)	return POINTS_CARROT;
+	AABB box;
+	if (type == ObjectType::EGG)
+	{
+		return POINTS_EGG;
+		Point p;
+		p.x = box.pos.x - (TILE_SIZE ) / 2;
+		p.y = box.pos.y - (TILE_SIZE ) / 2;
+		particles->Add(p);
+	}
+	else if (type == ObjectType::CARROT)
+	{
+		return POINTS_CARROT;
+		Point p;
+		p.x = box.pos.x - (TILE_SIZE) / 2;
+		p.y = box.pos.y - (TILE_SIZE) / 2;
+		particles->Add(p);
+	}
 	else
 	{
 		LOG("Internal error: object type invalid when giving points");

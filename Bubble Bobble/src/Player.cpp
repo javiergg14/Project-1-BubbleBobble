@@ -16,9 +16,28 @@ Player::Player(const Point& p, State s, Look view) :
 	map = nullptr;
 	score = 0;
 	vida = 3;
+	shots = nullptr;
 }
 Player::~Player()
 {
+}
+void Player::SetShotManager(ShotManager* shots)
+{
+	this->shots = shots;
+}
+void Player:: SetEnemiesHitbox(std::vector<AABB>hitboxes)	
+{
+	this->enemies_hitbox = hitboxes;
+}
+void Player::StartDeath()
+{
+	if (GetAnimation() != PlayerAnim::DEAD_LEFT && GetAnimation()!=PlayerAnim::DEAD_RIGHT)
+	{
+		state = State::DEAD;
+		if (IsLookingRight())	SetAnimation((int)PlayerAnim::DEAD_RIGHT);
+		else					SetAnimation((int)PlayerAnim::DEAD_LEFT);
+	}	
+
 }
 AppStatus Player::Initialise()
 {
@@ -74,6 +93,12 @@ AppStatus Player::Initialise()
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT, ANIM_DELAY_ATTACK);
 	for (i = 0; i < 4; ++i)
 		sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT, { (float)i * n, 4 * n, -n, n });
+	sprite->SetAnimationDelay((int)PlayerAnim::DEAD_RIGHT, ANIM_DELAY_ATTACK);
+	for (i = 0; i < 4; ++i)
+		sprite->AddKeyFrame((int)PlayerAnim::DEAD_RIGHT, { (float)i * n, 4 * n, -n, n });
+	sprite->SetAnimationDelay((int)PlayerAnim::DEAD_LEFT, ANIM_DELAY_ATTACK);
+	for (i = 0; i < 4; ++i)
+		sprite->AddKeyFrame((int)PlayerAnim::DEAD_LEFT, { (float)i * n, 4 * n, n, n });
 
 	JumpSound = LoadSound("Music/Salto.wav");
 	AttackSound = LoadSound("Music/Lanzar burbuja.wav");
@@ -210,16 +235,60 @@ void Player::Update()
 {
 	//Player doesn't use the "Entity::Update() { pos += dir; }" default behaviour.
 	//Instead, uses an independent behaviour for each axis.
-	MoveX();
-	MoveY();
+	OutOfScreen();
+
+	if (state == State::DEAD)
+	{
+		
+		LogicDead();
+	}
+	else
+	{
+		for (AABB hitbox : enemies_hitbox)
+		{
+			if (GetHitbox().TestAABB(hitbox))
+			{
+				
+				StartDeath();
+			}
+		}
+		MoveX();
+		MoveY();
+	}
+
 
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->Update();
 }
+void Player::LogicDead()
+{
+	Sprite* sprite = dynamic_cast<Sprite*>(render);
+
+			vida -= 1;
+			SetPos(PLAYER_SPAWN);
+			Stop();
+			ChangeAnimRight();
+
+}
+void Player::GetShootingPosDir(Point* p, Point* d) const	
+{
+	if (look == Look::LEFT)
+	{
+		p->x = pos.x + SLIME_SHOT_OFFSET_X_LEFT;
+		*d = { -SLIME_SHOT_SPEED, 0 };
+	}
+	else
+	{
+		p->x = pos.x + SLIME_SHOT_OFFSET_X_RIGHT;
+		*d = { SLIME_SHOT_SPEED, 0 };
+	}
+		p->y = pos.y + SLIME_SHOT_OFFSET_Y;
+	}
 void Player::MoveX()
 {
 	AABB box;
 	int prev_x = pos.x;
+	
 
 	//We can only go up and down while climbing
 
@@ -300,6 +369,9 @@ void Player::MoveY()
 			if (state != State::FALLING) StartFalling();
 		}
 	}
+}
+void Player::Enemy()
+{
 }
 void Player::LogicJumping()
 {

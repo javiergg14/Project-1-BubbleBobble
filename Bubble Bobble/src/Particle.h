@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.h"
 
-#define PARTICLE_FRAME_SIZE		8
+#define PARTICLE_FRAME_SIZE		16
 #define PARTICLE_ANIM_DELAY		(2*ANIM_DELAY)
 
 class Particle : public Entity

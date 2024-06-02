@@ -24,6 +24,10 @@ void Sprite::SetAnimationDelay(int id, int delay)
         animations[id].delay = delay;
     }
 }
+bool Sprite::IsLastFrame()
+{
+    return current_frame == animations[current_anim].frames.size() - 1;
+}
 void Sprite::AddKeyFrame(int id, const Rectangle& rect)
 {
     if (id >= 0 && id < animations.size())

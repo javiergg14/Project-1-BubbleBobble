@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "TileMap.h"
+#include "ShotManager.h"
 
 //Representation model size: 32x32
 #define PLAYER_FRAME_SIZE		32
@@ -27,8 +28,16 @@
 //Player is levitating when abs(speed) <= this value
 #define PLAYER_LEVITATING_SPEED	4
 
+#define PLAYER_SPAWN {80, 430}
+
 //Gravity affects jumping velocity when jump_delay is 0
 #define GRAVITY_FORCE			1
+
+#define SLIME_SHOT_OFFSET_X_LEFT	-14
+#define SLIME_SHOT_OFFSET_X_RIGHT	 26
+#define SLIME_SHOT_OFFSET_Y			-22
+
+#define SLIME_SHOT_SPEED	4
 
 //Logic states
 enum class State { IDLE, WALKING, JUMPING, FALLING, CLIMBING, DEAD, ATTACKING };
@@ -43,9 +52,8 @@ enum class PlayerAnim {
 	CLIMBING, CLIMBING_PRE_TOP, CLIMBING_TOP,
 	SHOCK_LEFT, SHOCK_RIGHT,
 	TELEPORT_LEFT, TELEPORT_RIGHT,
-	NUM_ANIMATIONS
+	NUM_ANIMATIONS,DEAD_LEFT, DEAD_RIGHT,
 };
-
 class Player : public Entity
 {
 public:
@@ -59,6 +67,8 @@ public:
 	void IncrScore(int n);
 	int GetScore();
 
+	void SetEnemiesHitbox(std::vector<AABB>hitboxes);
+
 	void InitVida();
 	void IncrVida(int n);
 	int GetVida();
@@ -67,6 +77,12 @@ public:
 	void Update();
 	void DrawDebug(const Color& col) const;
 	void Release();
+
+	void GetShootingPosDir(Point* pos, Point* dir) const;
+	void SetShotManager(ShotManager* shots);
+
+	void StartDeath();
+	void LogicDead();
 
 
 private:
@@ -77,11 +93,11 @@ private:
 	void MoveX();
 	void MoveY();
 	void LogicJumping();
-	void Vida();
+
+	int attack_delay;
 
 	//Animation management
 	void SetAnimation(int id);
-	PlayerAnim GetAnimation();
 	void Stop();
 	void StartWalkingLeft();
 	void StartWalkingRight();
@@ -89,6 +105,9 @@ private:
 	void StartJumping();
 	void ChangeAnimRight();
 	void ChangeAnimLeft();
+	void Enemy();
+
+	PlayerAnim GetAnimation();
 
 	//Jump steps
 	bool IsAscending() const;
@@ -105,6 +124,11 @@ private:
 	TileMap* map;
 
 	int score, vida;
+
+	ShotManager* shots;
+
+	std::vector<AABB> enemies_hitbox;
+
 
 
 	Sound JumpSound;
