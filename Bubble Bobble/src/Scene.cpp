@@ -445,7 +445,7 @@ void Scene::Release()
 }
 bool Scene::ScoreCheck()
 {
-	if (player->GetScore() == 5000)
+	if (player->GetScore() == 1800)
 	{
 		return true;
 	}
