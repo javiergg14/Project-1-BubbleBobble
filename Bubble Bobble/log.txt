@@ -1,2 +1,6 @@
-Project executed on 02-06-2024 at 22:18:37.
+Project executed on 02-06-2024 at 23:32:15.
 main.cpp(13): Application start
+Tilemap.cpp(121): Error: Index out of bounds. Tile map dimensions: 32x30. Given index: (4, 30)
+Tilemap.cpp(121): Error: Index out of bounds. Tile map dimensions: 32x30. Given index: (5, 30)
+main.cpp(34): Application finish
+main.cpp(37): Bye :)
