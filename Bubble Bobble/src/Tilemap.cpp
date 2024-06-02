@@ -43,19 +43,22 @@ void TileMap::InitTileDictionary()
 	dict_rect[(int)Tile::TOTAL_EDGE_SHADOW] = { 0, n, n, n };
 	dict_rect[(int)Tile::BLOQUE2] = { 0, 2*n, n, n };
 	dict_rect[(int)Tile::LATERAL21] = { 4*n, 2*n, n, n };
-	dict_rect[(int)Tile::LATERAL22] = { 5 * n, 2 * n, 2 * n, 2 * n };
-	dict_rect[(int)Tile::LATERAL23] = { 4 * n, 3 * n, 2 * n, 2 * n };
-	dict_rect[(int)Tile::LATERAL24] = { 5 * n, 3 * n, 2 * n, 2 * n };
+	dict_rect[(int)Tile::LATERAL22] = { 5 * n, 2 * n,  n,  n };
+	dict_rect[(int)Tile::LATERAL23] = { 4 * n, 3 * n,  n, n };
+	dict_rect[(int)Tile::LATERAL24] = { 5 * n, 3 * n,  n,  n };
 	dict_rect[(int)Tile::BLOQUE3] = { 0, 4*n, n, n };
-	dict_rect[(int)Tile::LATERAL32] = { 4*n, 5*n, n, n };
-	dict_rect[(int)Tile::LATERAL33] = { 5 * n, 5 * n, n, n };
-	dict_rect[(int)Tile::ESQUINA4] = { 0, n, n, n };
-	dict_rect[(int)Tile::BLOQUE4] = { 0, n, n, n };
-	dict_rect[(int)Tile::LATERAL4] = { 0, n, n, n };
+	dict_rect[(int)Tile::LATERAL32] = { 3*n, 5*n, n, n };
+	dict_rect[(int)Tile::LATERAL33] = { 4 * n, 5 * n, n, n };
+	dict_rect[(int)Tile::ESQUINA4] = { 0, 7*n, n, n };
+	dict_rect[(int)Tile::BLOQUE4] = { 0, 6*n, n, n };
+	dict_rect[(int)Tile::LATERAL41] = { 4*n, 6*n, n, n };
+	dict_rect[(int)Tile::LATERAL42] = { 5*n, 6*n, n, n };
+	dict_rect[(int)Tile::LATERAL43] = { 4*n, 7*n, n, n };
+	dict_rect[(int)Tile::LATERAL44] = { 5*n, 7*n, n, n };
+	dict_rect[(int)Tile::HORIZONTALESQUINA4] = { n, 6*n, n, n };
+	dict_rect[(int)Tile::HORIZONTAL4] = { 2*n, 6*n, n, n };
 	dict_rect[(int)Tile::HORIZONTALESQUINA4] = { 0, n, n, n };
-	dict_rect[(int)Tile::HORIZONTAL4] = { 0, n, n, n };
-	dict_rect[(int)Tile::HORIZONTALESQUINA4] = { 0, n, n, n };
-	dict_rect[(int)Tile::VERTICAL4] = { 0, n, n, n };
+	dict_rect[(int)Tile::VERTICAL4] = { n, 7*n, n, n };
 
 }
 AppStatus TileMap::Initialise()

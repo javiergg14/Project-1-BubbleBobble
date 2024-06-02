@@ -74,9 +74,9 @@ void Slime::InitPattern1()
 {
 	const int n = SLIME_ANIM_DELAY*2;
 	pattern.push_back({ {0, 0}, 2, (int)SlimeAnim::IDLE_RIGHT });
-	pattern.push_back({ {SLIME_SPEED, 0}, 3*n, (int)SlimeAnim::WALKING_RIGHT });
+	pattern.push_back({ {SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_RIGHT });
 	pattern.push_back({ {0, 0}, 2, (int)SlimeAnim::IDLE_LEFT });
-	pattern.push_back({ {-SLIME_SPEED, 0}, 3*n, (int)SlimeAnim::WALKING_LEFT });
+	pattern.push_back({ {-SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_LEFT });
 	
 	current_step = 0;
 	current_frames = 0;
@@ -85,9 +85,9 @@ void Slime::InitPattern2()
 {
 	const int n = SLIME_ANIM_DELAY * 2;
 	pattern.push_back({ {0, 0}, 2, (int)SlimeAnim::IDLE_LEFT });
-	pattern.push_back({ {-SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_LEFT });
+	pattern.push_back({ {-SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_LEFT });
 	pattern.push_back({ {0, 0}, 2, (int)SlimeAnim::IDLE_RIGHT });
-	pattern.push_back({ {SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_RIGHT });
+	pattern.push_back({ {SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_RIGHT });
 	
 
 	current_step = 0;
@@ -97,13 +97,13 @@ void Slime::InitPattern3()
 {
 	const int n = SLIME_ANIM_DELAY * 2;
 	pattern.push_back({ {0, 0}, 2*n, (int)SlimeAnim::IDLE_RIGHT });
-	pattern.push_back({ {SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_RIGHT });
+	pattern.push_back({ {SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_RIGHT });
 	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_RIGHT });
-	pattern.push_back({ {SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_RIGHT });
+	pattern.push_back({ {SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_RIGHT });
 	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_LEFT });
-	pattern.push_back({ {-SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_LEFT });
+	pattern.push_back({ {-SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_LEFT });
 	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_LEFT });
-	pattern.push_back({ {-SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_LEFT });
+	pattern.push_back({ {-SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_LEFT });
 
 	current_step = 0;
 	current_frames = 0;
@@ -112,13 +112,13 @@ void Slime::InitPattern4()
 {
 	const int n = SLIME_ANIM_DELAY * 2;
 	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_LEFT });
-	pattern.push_back({ {-SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_LEFT });
+	pattern.push_back({ {-SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_LEFT });
 	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_LEFT });
-	pattern.push_back({ {-SLIME_SPEED , 0}, 2 * n, (int)SlimeAnim::WALKING_LEFT });
+	pattern.push_back({ {-SLIME_SPEED , 0}, n, (int)SlimeAnim::WALKING_LEFT });
 	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_RIGHT });
-	pattern.push_back({ {SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_RIGHT });
+	pattern.push_back({ {SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_RIGHT });
 	pattern.push_back({ {0, 0}, 2 * n, (int)SlimeAnim::IDLE_RIGHT });
-	pattern.push_back({ {SLIME_SPEED, 0}, 2 * n, (int)SlimeAnim::WALKING_RIGHT });
+	pattern.push_back({ {SLIME_SPEED, 0}, n, (int)SlimeAnim::WALKING_RIGHT });
 	
 
 	current_step = 0;

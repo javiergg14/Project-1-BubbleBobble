@@ -256,6 +256,7 @@ void Player::Update()
 		MoveY();
 	}
 
+	Tepe();
 
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->Update();

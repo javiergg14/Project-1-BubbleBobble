@@ -40,6 +40,13 @@ void Entity::Set(const Point& p, const Point& d, int w, int h, int framew, int f
 	frame_height = frameh;
 	alive = true;
 }
+void Entity::Tepe()
+{
+	if (GetPos().y > 480)
+	{
+		SetPos({ GetPos().x, 50 });
+	}
+}
 Point Entity::GetPos() const
 {
 	return pos;

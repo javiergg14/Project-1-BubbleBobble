@@ -27,6 +27,8 @@ public:
 	void SetAlive(bool b);
 	bool IsAlive() const;
 
+	void Tepe();
+
 	//Draw representation model
 	void Draw() const;
 	void DrawTint(const Color& col) const;
