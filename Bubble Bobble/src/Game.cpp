@@ -12,7 +12,8 @@ Game::Game()
     scene = nullptr;
     img_menu = nullptr;
     img_title = nullptr;
-
+    img_lose = nullptr;
+    img_win = nullptr;
 
     target = {};
     src = {};

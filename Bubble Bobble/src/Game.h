@@ -28,7 +28,6 @@ private:
     const Texture2D* img_title;
     const Texture2D* img_win;
     const Texture2D* img_lose;
-    const Texture2D* coin;
 
     //To work with original game units and then scale the result
     RenderTexture2D target;

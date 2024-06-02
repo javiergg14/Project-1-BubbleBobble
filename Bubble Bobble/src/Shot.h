@@ -2,7 +2,7 @@
 #include "Entity.h"
 
 #define SHOT_PHYSICAL_WIDTH		12
-#define SHOT_PHYSICAL_HEIGHT	3
+#define SHOT_PHYSICAL_HEIGHT	12
 #define SHOT_FRAME_WIDTH		16
 #define SHOT_FRAME_HEIGHT		3
 

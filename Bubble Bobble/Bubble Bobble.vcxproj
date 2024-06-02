@@ -134,8 +134,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\javig\Desktop\Project-1-BubbleBobble\Bubble Bobble\raylib\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\javig\Desktop\Project-1-BubbleBobble\Bubble Bobble\raylib\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Proyectos\Project-1-BubbleBobble\Bubble Bobble\raylib\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Proyectos\Project-1-BubbleBobble\Bubble Bobble\raylib\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

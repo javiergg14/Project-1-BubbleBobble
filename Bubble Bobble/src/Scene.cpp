@@ -386,6 +386,7 @@ void Scene::Update()
 	if (IsKeyPressed(KEY_F1))
 	{
 		debug = (DebugMode)(((int)debug + 1) % (int)DebugMode::SIZE);
+
 	}
 	//Debug levels instantly
 

@@ -39,6 +39,7 @@
 
 #define SLIME_SHOT_SPEED	4
 
+#define PLAYER_SHOOT_SPEED 1
 //Logic states
 enum class State { IDLE, WALKING, JUMPING, FALLING, CLIMBING, DEAD, ATTACKING };
 
@@ -53,6 +54,7 @@ enum class PlayerAnim {
 	SHOCK_LEFT, SHOCK_RIGHT,
 	TELEPORT_LEFT, TELEPORT_RIGHT,
 	NUM_ANIMATIONS,DEAD_LEFT, DEAD_RIGHT,
+	SHOOTING_RIGHT, SHOOTING_LEFT
 };
 class Player : public Entity
 {
@@ -84,6 +86,9 @@ public:
 	void StartDeath();
 	void LogicDead();
 
+	void Shoot();
+	void LogicShooting();
+
 
 private:
 	bool IsLookingRight() const;
@@ -94,7 +99,6 @@ private:
 	void MoveY();
 	void LogicJumping();
 
-	int attack_delay;
 
 	//Animation management
 	void SetAnimation(int id);
@@ -129,10 +133,7 @@ private:
 
 	std::vector<AABB> enemies_hitbox;
 
-
-
 	Sound JumpSound;
-	Sound FruitSound;
 	Sound AttackSound;
 
 	int v = 0;

@@ -4,7 +4,7 @@
 #include "TileMap.h"
 #include "ParticleManager.h"
 
-#define MAX_SHOTS		16
+#define MAX_SHOTS		32
 
 class ShotManager
 {

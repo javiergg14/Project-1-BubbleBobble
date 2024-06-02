@@ -17,6 +17,8 @@ Player::Player(const Point& p, State s, Look view) :
 	score = 0;
 	vida = 3;
 	shots = nullptr;
+	JumpSound = LoadSound("Music/Salto.wav");
+	AttackSound = LoadSound("Music/Lanzar burbuja.wav");
 }
 Player::~Player()
 {
@@ -87,12 +89,12 @@ AppStatus Player::Initialise()
 	sprite->SetAnimationDelay((int)PlayerAnim::JUMPING_LEFT, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::JUMPING_LEFT, { 0, 3 * n, n, n });
 	sprite->AddKeyFrame((int)PlayerAnim::JUMPING_LEFT, { n, 3 * n, n, n });
-	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_LEFT, ANIM_DELAY_ATTACK);
+	sprite->SetAnimationDelay((int)PlayerAnim::SHOOTING_LEFT, ANIM_DELAY_ATTACK);
 	for (i = 0; i < 4; ++i)
-		sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT, { (float)i * n, 4 * n, n, n });
-	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT, ANIM_DELAY_ATTACK);
+		sprite->AddKeyFrame((int)PlayerAnim::SHOOTING_LEFT, { (float)i * n, 4 * n, n, n });
+	sprite->SetAnimationDelay((int)PlayerAnim::SHOOTING_RIGHT, ANIM_DELAY_ATTACK);
 	for (i = 0; i < 4; ++i)
-		sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT, { (float)i * n, 4 * n, -n, n });
+		sprite->AddKeyFrame((int)PlayerAnim::SHOOTING_RIGHT, { (float)i * n, 4 * n, -n, n });
 	sprite->SetAnimationDelay((int)PlayerAnim::DEAD_RIGHT, ANIM_DELAY_ATTACK);
 	for (i = 0; i < 4; ++i)
 		sprite->AddKeyFrame((int)PlayerAnim::DEAD_RIGHT, { (float)i * n, 4 * n, -n, n });
@@ -100,8 +102,6 @@ AppStatus Player::Initialise()
 	for (i = 0; i < 4; ++i)
 		sprite->AddKeyFrame((int)PlayerAnim::DEAD_LEFT, { (float)i * n, 4 * n, n, n });
 
-	JumpSound = LoadSound("Music/Salto.wav");
-	AttackSound = LoadSound("Music/Lanzar burbuja.wav");
 
 	return AppStatus::OK;
 }
@@ -256,6 +256,8 @@ void Player::Update()
 		MoveY();
 	}
 
+	Shoot();
+
 	Tepe();
 
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
@@ -270,6 +272,43 @@ void Player::LogicDead()
 			Stop();
 			ChangeAnimRight();
 
+}
+void Player::Shoot()
+{
+	Sprite* sprite = dynamic_cast<Sprite*>(render);
+
+	if (GetAnimation() == PlayerAnim::SHOOTING_LEFT || GetAnimation() == PlayerAnim::SHOOTING_RIGHT)
+	{
+		if (sprite->IsLastFrame())
+		{
+			if (state == State::JUMPING)
+			{
+				if (IsLookingRight())    SetAnimation((int)PlayerAnim::JUMPING_RIGHT);
+				else SetAnimation((int)PlayerAnim::JUMPING_LEFT);
+			}
+			else if (state == State::FALLING)
+			{
+				if (IsLookingRight())    SetAnimation((int)PlayerAnim::FALLING_RIGHT);
+				else SetAnimation((int)PlayerAnim::FALLING_LEFT);
+			}
+			else {
+				Stop();
+			}
+		}
+
+	}
+	else
+	{
+		if (IsKeyDown(KEY_X))
+		{				
+				LogicShooting();
+		}
+	}
+}
+void Player::LogicShooting()
+{
+	if (look == Look::RIGHT)    shots->Add(pos, { PLAYER_SHOOT_SPEED, 0 });
+	else                    shots->Add(pos, { -PLAYER_SHOOT_SPEED, 0 });
 }
 void Player::GetShootingPosDir(Point* p, Point* d) const	
 {

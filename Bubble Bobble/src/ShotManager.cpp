@@ -10,8 +10,12 @@ ShotManager::~ShotManager()
 }
 AppStatus ShotManager::Initialise()
 {
-	//Nothing needs to be done because the texture is located within the enemy sprites
-	//and loaded by the EnemyManager
+	ResourceManager& data = ResourceManager::Instance();
+	if (data.LoadTexture(Resource::SHOOT, "images/Shoot.png") != AppStatus::OK)
+	{
+		LOG("Failed to load enemies sprite texture");
+		return AppStatus::ERROR;
+	}
 
 	return AppStatus::OK;
 }
@@ -28,12 +32,7 @@ void ShotManager::Add(const Point& pos, const Point& dir)
 	bool found = false;
 	for (Shot& shot : shots)
 	{
-		if (!shot.IsAlive())
-		{
-			shot.Init(pos, dir);
-			found = true;
-			break;
-		}
+		shot.Init(pos, dir);
 	}
 	if(!found) LOG("Not enough space to add a new shot in the ShotManager!");
 }
